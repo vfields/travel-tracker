@@ -17,5 +17,11 @@ section { /* delete this later */
 }
 
 .trip-request-section {
+  display: flex row;
   grid-column: span 3;
+}
+
+/* GENERAL ********************************************* */
+.hidden {
+  display: none;
 }

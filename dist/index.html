@@ -13,23 +13,6 @@
     <p>As of today's date, <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
     <p><span class="astericks">*</span>This total includes the 10% travel agent's fee.</p>
   </header>
-  <section class="trip-request-section">
-    <button class="trip-request-btn">
-      <span class="trip-request-btn-text">SHOW</span> Trip Request Form
-    </button>
-    <form class="trip-request-form">
-      <label for="trip-date">Date:</label>
-      <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
-      <label for="trip-duration">Trip Duration (days):</label>
-      <input name="trip-duration" placeholder="0" type="number" min="0" required />
-      <label for="num-of-travelers">Number of Travelers:</label>
-      <input name="num-of-travelers" placeholder="1" type="number" min="1" required />
-      <label for="destination-choice">Destination:</label>
-      <select name="destination-choice" required>
-        <option value="">Please select a destination!</option>
-      </select>
-    </form>
-  </section>
   <section class="past-trips-section">
     <h2>Past Trips:</h2>
   </section>
@@ -38,6 +21,30 @@
   </section>
   <section class="upcoming-trips-section">
     <h2>Upcoming Trips:</h2>
+  </section>
+  <section class="trip-request-section">
+    <h2>Make A Trip Request</h2>
+    <form class="trip-request-form">
+      <div class="form-field">
+        <label for="trip-date">Date:</label>
+        <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+      </div>
+      <div class="form-field">
+        <label for="trip-duration">Trip Duration (days):</label>
+        <input name="trip-duration" placeholder="0" type="number" min="0" required />
+      </div>
+      <div class="form-field">
+        <label for="num-of-travelers">Number of Travelers:</label>
+        <input name="num-of-travelers" placeholder="1" type="number" min="1" required />
+      </div>
+      <div class="form-field">
+        <label for="destination-choice">Destination:</label>
+        <select name="destination-choice" required>
+          <option value="">Please select a destination!</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">Request My Trip!</button>
+    </form>
   </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
