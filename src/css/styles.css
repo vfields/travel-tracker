@@ -21,6 +21,11 @@ section { /* delete this later */
   grid-column: span 3;
 }
 
+/* TEXT ********************************************* */
+span {
+  color: red;
+}
+
 /* GENERAL ********************************************* */
 .hidden {
   display: none;
