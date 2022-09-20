@@ -6,13 +6,17 @@ import Dataset from './Dataset.js';
 
 // GLOBAL DATA ***************************************************
 let travelerDataset;
+let tripDataset;
+let destinationDataset;
 
 // FETCH DATA *****************************************************
-fetchData('travelers')
-  .then(data => console.log('this works, here is the data[dataset]', data));
+Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
+  .then(datasets => {
+    setData(datasets);
+  });
 
-fetchData('trips')
-  .then(data => console.log('this works, here is the data[dataset]', data));
-
-fetchData('destinations')
-  .then(data => console.log('this works, here is the data[dataset]', data));
+function setData(datasets) {
+  travelerDataset = new Dataset(datasets[0]);
+  tripDataset = new Dataset(datasets[1]);
+  destinationDataset = new Dataset(datasets[2]);
+};
