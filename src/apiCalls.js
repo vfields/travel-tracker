@@ -6,6 +6,7 @@ function fetchData(dataset) {
       }
       return response.json();
     })
+    .then(data => data[dataset])
     .catch(error => {
       alert('Oops, something went wrong. Try refreshing your page.');
     })
