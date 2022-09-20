@@ -17,6 +17,18 @@
     <button class="trip-request-btn">
       <span class="trip-request-btn-text">SHOW</span> Trip Request Form
     </button>
+    <form class="trip-request-form">
+      <label for="trip-date">Date:</label>
+      <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+      <label for="trip-duration">Trip Duration (days):</label>
+      <input name="trip-duration" placeholder="0" type="number" min="0" required />
+      <label for="num-of-travelers">Number of Travelers:</label>
+      <input name="num-of-travelers" placeholder="1" type="number" min="1" required />
+      <label for="destination-choice">Destination:</label>
+      <select name="destination-choice" required>
+        <option value="">Please select a destination!</option>
+      </select>
+    </form>
   </section>
   <section class="past-trips-section">
     <h2>Past Trips:</h2>
