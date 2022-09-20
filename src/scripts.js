@@ -1,11 +1,7 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
+// DEPENDENCIES **************************************************
 import './css/styles.css';
+import { fetchData } from './apiCalls';
+import Traveler from './Traveler.js';
+import Dataset from './Dataset.js';
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-
-
-console.log('This is the JavaScript entry file - your code begins here.');
+// GLOBAL DATA ***************************************************
