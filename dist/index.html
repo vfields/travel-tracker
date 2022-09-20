@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <title>Travel Tracker</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
+  <header>
+    <h1>Travel Tracker</h1>
+    <p>Hello, <span class="traveler-first-name">TRAVELER</span></p>
+    <p>As of today's date, <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
+    <p><span class="astericks">*</span>This total includes the 10% travel agent's fee.</p>
+  </header>
+  <section class="trip-request-section">
+    <button class="trip-request-btn">
+      <span class="trip-request-btn-text">SHOW</span> Trip Request Form
+    </button>
+  </section>
+  <section class="past-trips-section">
+    <h2>Past Trips:</h2>
+  </section>
+  <section class="pending-trips-section">
+    <h2>Pending Trips:</h2>
+  </section>
+  <section class="upcoming-trips-section">
+    <h2>Upcoming Trips:</h2>
+  </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 

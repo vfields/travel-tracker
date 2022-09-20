@@ -1,3 +1,21 @@
+/* BODY ************************************************* */
 body {
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+header {
+  border: 2px solid red; /* delete this later */
+  grid-column: span 3;
+}
+
+section { /* delete this later */
+  border: 2px solid red;
+}
+
+.trip-request-section {
+  grid-column: span 3;
 }
