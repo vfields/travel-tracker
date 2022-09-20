@@ -12,3 +12,5 @@ class Traveler {
 }
 
 export default Traveler;
+
+// needed date format = new Date().toISOString().slice(0, 10).split('-').join('/');
