@@ -11,15 +11,20 @@
     <h1>Travel Tracker</h1>
     <p>Hello, <span class="traveler-first-name">TRAVELER</span>!</p>
     <p>As of today's date, <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
-    <p><span class="astericks">*</span>This total includes the 10% travel agent's fee.</p>
+    <p><span class="astericks">*</span>This total includes the 10% travel agent's fee and total flight cost of each trip!</p>
   </header>
-  <section class="past-trips-section">
+  <section class="trips past-trips-section">
     <h2>Past Trips:</h2>
+    <!-- <article class="trip-card" tabindex="0">
+      <p>Destination: <span>DESTINATION NAME</span></p>
+      <p>Travel Date: <span>TRAVEL DATE</span></p>
+      <img src="https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80">
+    </article> -->
   </section>
-  <section class="pending-trips-section">
+  <section class="trips pending-trips-section">
     <h2>Pending Trips:</h2>
   </section>
-  <section class="upcoming-trips-section">
+  <section class="trips upcoming-trips-section">
     <h2>Upcoming Trips:</h2>
   </section>
   <section class="trip-request-section">
@@ -39,8 +44,8 @@
       </div>
       <div class="form-field">
         <label for="destination-choice">Destination:</label>
-        <select name="destination-choice" required>
-          <option value="">Please select a destination!</option>
+        <select name="destination-choice" class="destination-choices" required>
+          <option value="">Select a destination!</option>
         </select>
       </div>
       <button type="submit" class="submit-btn">Request My Trip!</button>
