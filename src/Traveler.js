@@ -9,6 +9,10 @@ class Traveler {
     return this.name.split(' ', 1)[0];
   }
 
+  setTravelerData(dataName, dataset, property) {
+    this[dataName] = dataset.findTravelerData(this.id, property);
+  }
+
 }
 
 export default Traveler;

@@ -37,5 +37,6 @@ function displayTravelerData() {
 function displayTravelerInfo() {
   travelerFirstName.innerText = currentTraveler.findFirstName();
   todaysDate.innerText = new Date().toLocaleDateString();
+  console.log(tripDataset.findTravelerData(7, 'userID'))
   // travelerTotalSpent.innerText = traveler method call
 }
