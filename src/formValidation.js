@@ -24,3 +24,18 @@ function isSelected(list) {
   const selectedValue = list.options[list.selectedIndex].value;
   return selectedValue === '' ? false : true;
 }
+
+function displayError(input, message) {
+  const formField = input.parentElement;
+  formField.classList.remove('success');
+  formField.classList.add('error');
+  formField.querySelector('.error-message').textContent = message;
+}
+
+function displaySuccess(input) {
+  const formField = input.parentElement;
+  formField.classList.remove('error');
+  formField.classList.add('success');
+  formField.querySelector('.error-message').textContent = '';
+  // could also consider adding hidden class pending on display
+}

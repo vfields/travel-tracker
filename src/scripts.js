@@ -53,6 +53,7 @@ const destinationChoices = document.querySelector('#destinationChoices');
 
 tripRequestForm.addEventListener('submit', function(event) {
   event.preventDefault();
+  // console.log(numOfTravelers.parentElement)
 })
 
 
