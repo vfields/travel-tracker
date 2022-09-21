@@ -32,8 +32,7 @@ class Traveler {
       .reduce((acc, destination) => {
         if (pastTrips.includes(destination.id)) {
           const pastTrip = this.trips.find(trip => trip.destinationID === destination.id);
-          const numOfTravelers = pastTrip.travelers;
-          const flightCosts = numOfTravelers * destination.estimatedFlightCostPerPerson;
+          const flightCosts = pastTrip.travelers * destination.estimatedFlightCostPerPerson;
           const destinationCost = flightCosts + destination.estimatedLodgingCostPerDay;
           acc += destinationCost;
         }
@@ -44,7 +43,6 @@ class Traveler {
 
     return Math.round(totalWithFee * 100) / 100;
   }
-
 }
 
 export default Traveler;
