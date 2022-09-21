@@ -41,6 +41,26 @@ span {
   color: red;
 }
 
+/* FORM ************************************************ */
+
+/* :invalid {
+  border: 2px solid orange;
+}
+
+:valid {
+  border: 2px solid green;
+} */
+
+/* or */
+
+.error {
+  border: 2px solid orange;
+}
+
+.success {
+  border: 2px solid green;
+}
+
 /* GENERAL ********************************************* */
 .hidden {
   display: none;

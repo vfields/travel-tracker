@@ -4,7 +4,7 @@ import { fetchData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
 
-// GLOBAL DATA ***************************************************
+// GLOBAL DATA ****************************************************
 let travelerDataset;
 let tripDataset;
 let destinationDataset;
@@ -36,7 +36,25 @@ const travelerTotalSpent = document.querySelector('.total-spent');
 const pastTripsSection = document.querySelector('.past-trips-section');
 const pendingTripsSection = document.querySelector('.pending-trips-section');
 const upcomingTripsSection = document.querySelector('.upcoming-trips-section');
-const destinationChoices = document.querySelector('.destination-choices');
+
+const tripRequestForm = document.querySelector('.trip-request-form');
+const tripDate = document.querySelector('#tripDate');
+const tripDuration = document.querySelector('#tripDuration');
+const numOfTravelers = document.querySelector('#numOfTravelers');
+const destinationChoices = document.querySelector('#destinationChoices');
+
+// EVENT LISTENERS ************************************************
+
+// might be something to consider later:
+// const allRequiredInputs = Array.from(document.querySelectorAll('[required]'));
+// allRequiredInputs.forEach(input => {
+//   console.log(input);
+// })
+
+tripRequestForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+})
+
 
 // FUNCTIONS ******************************************************
 function displayData() {

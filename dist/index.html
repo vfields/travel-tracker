@@ -33,20 +33,24 @@
       <div class="form-field">
         <label for="trip-date">Date:</label>
         <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+        <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="trip-duration">Trip Duration (days):</label>
-        <input name="trip-duration" placeholder="0" type="number" min="0" required />
+        <input name="trip-duration" id="tripDuration" placeholder="0" type="number" min="1" required />
+        <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="num-of-travelers">Number of Travelers:</label>
-        <input name="num-of-travelers" placeholder="1" type="number" min="1" required />
+        <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
+        <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="destination-choice">Destination:</label>
-        <select name="destination-choice" class="destination-choices" required>
+        <select name="destination-choice" id="destinationChoices">
           <option value="">Select a destination!</option>
         </select>
+        <span class="error-message"></span>
       </div>
       <button type="submit" class="submit-btn">Request My Trip!</button>
     </form>
