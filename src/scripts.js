@@ -18,7 +18,7 @@ Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations
 
 function setData(datasets) {
   travelerDataset = new Dataset(datasets[0]);
-  currentTraveler = new Traveler(travelerDataset.data[44]) // will likely need to be its own function with login functionality
+  currentTraveler = new Traveler(travelerDataset.data[6]) // will likely need to be its own function with login functionality
   tripDataset = new Dataset(datasets[1]);
   currentTraveler.setTravelerTrips(tripDataset, 'userID');
   // console.log('currentTraveler.trips', currentTraveler.trips);
@@ -57,35 +57,48 @@ function displayTrips() {
     // manipulate trip date to display a range of days in second <p>
     if (trip.status === 'pending') {
       // console.log('pending trip', trip);
-      pendingTripsSection.innerHTML += `
-      <article class="trip-card" tabindex="0">
-        <p>${destination.destination}</p>
-        <p>${trip.date}</p>
-        <img src="${destination.image}" alt="${destination.alt}">
-      </article>
-      `
+      createTripCard(pendingTripsSection, destination, trip);
+      // pendingTripsSection.innerHTML += `
+      // <article class="trip-card" tabindex="0">
+      //   <p>${destination.destination}</p>
+      //   <p>${trip.date}</p>
+      //   <img src="${destination.image}" alt="${destination.alt}">
+      // </article>
+      // `
     }
     else if (trip.date < today) {
       // console.log('past trip', trip);
       // past trips
-      pastTripsSection.innerHTML += `
-      <article class="trip-card" tabindex="0">
-        <p>${destination.destination}</p>
-        <p>${trip.date}</p>
-        <img src="${destination.image}" alt="${destination.alt}">
-      </article>
-      `
+      createTripCard(pastTripsSection, destination, trip);
+      // pastTripsSection.innerHTML += `
+      // <article class="trip-card" tabindex="0">
+      //   <p>${destination.destination}</p>
+      //   <p>${trip.date}</p>
+      //   <img src="${destination.image}" alt="${destination.alt}">
+      // </article>
+      // `
     }
     else {
       // console.log('upcoming trip', trip);
       // upcoming trips
-      upcomingTripsSection.innerHTML += `
-      <article class="trip-card" tabindex="0">
-        <p>${destination.destination}</p>
-        <p>${trip.date}</p>
-        <img src="${destination.image}" alt="${destination.alt}">
-      </article>
-      `
+      createTripCard(upcomingTripsSection, destination, trip);
+      // upcomingTripsSection.innerHTML += `
+      // <article class="trip-card" tabindex="0">
+      //   <p>${destination.destination}</p>
+      //   <p>${trip.date}</p>
+      //   <img src="${destination.image}" alt="${destination.alt}">
+      // </article>
+      // `
     }
   })
+}
+
+function createTripCard(section, destination, trip) {
+  section.innerHTML += `
+  <article class="trip-card" tabindex="0">
+    <p>${destination.destination}</p>
+    <p>${trip.date}</p>
+    <img src="${destination.image}" alt="${destination.alt}">
+  </article>
+  `
 }
