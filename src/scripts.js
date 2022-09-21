@@ -18,9 +18,11 @@ Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations
 
 function setData(datasets) {
   travelerDataset = new Dataset(datasets[0]);
-  tripDataset = new Dataset(datasets[1]);
-  destinationDataset = new Dataset(datasets[2]);
   currentTraveler = new Traveler(travelerDataset.data[6]) // will likely need to be its own function with login functionality
+  tripDataset = new Dataset(datasets[1]);
+  currentTraveler.setTravelerData('trips', tripDataset, 'userID');
+  // console.log('currentTraveler.trips', currentTraveler.trips);
+  destinationDataset = new Dataset(datasets[2]);
   displayTravelerData();
 };
 
@@ -37,6 +39,5 @@ function displayTravelerData() {
 function displayTravelerInfo() {
   travelerFirstName.innerText = currentTraveler.findFirstName();
   todaysDate.innerText = new Date().toLocaleDateString();
-  console.log(tripDataset.findTravelerData(7, 'userID'))
   // travelerTotalSpent.innerText = traveler method call
 }
