@@ -4,7 +4,7 @@ class Dataset {
   }
 
   findTravelerTrips(id, property) {
-    return this.data.filter(data => data[property] === id);
+    return this.data.filter(trip => trip[property] === id);
   }
 
   findTravelerDestinations(travelersTrips) {

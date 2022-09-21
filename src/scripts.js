@@ -42,5 +42,5 @@ function displayTravelerData() {
 function displayTravelerInfo() {
   travelerFirstName.innerText = currentTraveler.findFirstName();
   todaysDate.innerText = new Date().toLocaleDateString();
-  // travelerTotalSpent.innerText = traveler method call
+  travelerTotalSpent.innerText = currentTraveler.calcTotalSpent().toFixed(2);
 }
