@@ -16,12 +16,27 @@ section { /* delete this later */
   border: 2px solid red;
 }
 
+.trips {
+  display: flex row;
+  max-height: 300px;
+  overflow: scroll;
+}
+
 .trip-request-section {
   display: flex row;
   grid-column: span 3;
 }
 
-/* TEXT ********************************************* */
+/* TRIP CARDS ****************************************** */
+
+.trip-card img {
+  width: 85%;
+  height: 85%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+/* TEXT ************************************************ */
 span {
   color: red;
 }
