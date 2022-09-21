@@ -83,11 +83,16 @@ function createTripCard(section, destination, trip) {
 }
 
 function displayDestinationChoices() {
-  // consider alphabetizing these in the future
-  destinationDataset.data.forEach(destination => {
-    const option = document.createElement('option');
-    option.value = destination.destination;
-    option.text = destination.destination;
-    destinationChoices.appendChild(option);
-  });
+  destinationDataset.data
+    .reduce((acc, destination) => {
+      acc.push(destination.destination);
+      return acc;
+    }, [])
+    .sort()
+    .forEach(destination => {
+      const option = document.createElement('option');
+      option.value = destination;
+      option.text = destination;
+      destinationChoices.appendChild(option);
+    });
 }
