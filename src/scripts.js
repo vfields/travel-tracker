@@ -26,7 +26,7 @@ function setData(datasets) {
   // console.log('destinationDataset', destinationDataset.data)
   currentTraveler.setTravelerDestinations(destinationDataset);
   // console.log('currentTraveler.destinations', currentTraveler.destinations);
-  displayTravelerData();
+  displayData();
 };
 
 // DOM ELEMENTS ***************************************************
@@ -36,11 +36,13 @@ const travelerTotalSpent = document.querySelector('.total-spent');
 const pastTripsSection = document.querySelector('.past-trips-section');
 const pendingTripsSection = document.querySelector('.pending-trips-section');
 const upcomingTripsSection = document.querySelector('.upcoming-trips-section');
+const destinationChoices = document.querySelector('.destination-choices');
 
 // FUNCTIONS ******************************************************
-function displayTravelerData() {
+function displayData() {
   displayTravelerInfo();
-  displayTrips();
+  displayTravelerTrips();
+  displayDestinationChoices();
 }
 
 function displayTravelerInfo() {
@@ -49,46 +51,23 @@ function displayTravelerInfo() {
   travelerTotalSpent.innerText = currentTraveler.calcTotalSpent().toFixed(2);
 }
 
-function displayTrips() {
+function displayTravelerTrips() {
   const today = new Date().toISOString().slice(0, 10).split('-').join('/');
   currentTraveler.trips.forEach(trip => {
     const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
     // console.log('destination', destination)
     // manipulate trip date to display a range of days in second <p>
     if (trip.status === 'pending') {
-      // console.log('pending trip', trip);
+      // pending trips
       createTripCard(pendingTripsSection, destination, trip);
-      // pendingTripsSection.innerHTML += `
-      // <article class="trip-card" tabindex="0">
-      //   <p>${destination.destination}</p>
-      //   <p>${trip.date}</p>
-      //   <img src="${destination.image}" alt="${destination.alt}">
-      // </article>
-      // `
     }
     else if (trip.date < today) {
-      // console.log('past trip', trip);
       // past trips
       createTripCard(pastTripsSection, destination, trip);
-      // pastTripsSection.innerHTML += `
-      // <article class="trip-card" tabindex="0">
-      //   <p>${destination.destination}</p>
-      //   <p>${trip.date}</p>
-      //   <img src="${destination.image}" alt="${destination.alt}">
-      // </article>
-      // `
     }
     else {
-      // console.log('upcoming trip', trip);
       // upcoming trips
       createTripCard(upcomingTripsSection, destination, trip);
-      // upcomingTripsSection.innerHTML += `
-      // <article class="trip-card" tabindex="0">
-      //   <p>${destination.destination}</p>
-      //   <p>${trip.date}</p>
-      //   <img src="${destination.image}" alt="${destination.alt}">
-      // </article>
-      // `
     }
   })
 }
@@ -101,4 +80,14 @@ function createTripCard(section, destination, trip) {
     <img src="${destination.image}" alt="${destination.alt}">
   </article>
   `
+}
+
+function displayDestinationChoices() {
+  // consider alphabetizing these in the future
+  destinationDataset.data.forEach(destination => {
+    const option = document.createElement('option');
+    option.value = destination.destination;
+    option.text = destination.destination;
+    destinationChoices.appendChild(option);
+  });
 }
