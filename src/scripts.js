@@ -20,9 +20,12 @@ function setData(datasets) {
   travelerDataset = new Dataset(datasets[0]);
   currentTraveler = new Traveler(travelerDataset.data[6]) // will likely need to be its own function with login functionality
   tripDataset = new Dataset(datasets[1]);
-  currentTraveler.setTravelerData('trips', tripDataset, 'userID');
+  currentTraveler.setTravelerTrips(tripDataset, 'userID');
   // console.log('currentTraveler.trips', currentTraveler.trips);
   destinationDataset = new Dataset(datasets[2]);
+  // console.log('destinationDataset', destinationDataset.data)
+  currentTraveler.setTravelerDestinations(destinationDataset);
+  // console.log('currentTraveler.destinations', currentTraveler.destinations);
   displayTravelerData();
 };
 

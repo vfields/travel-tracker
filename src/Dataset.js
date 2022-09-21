@@ -3,8 +3,19 @@ class Dataset {
     this.data = data;
   }
 
-  findTravelerData(id, property) {
+  findTravelerTrips(id, property) {
     return this.data.filter(data => data[property] === id);
+  }
+
+  findTravelerDestinations(travelersTrips) {
+    const tripDestinationIDs = travelersTrips
+      .map(trip => trip.destinationID);
+    return this.data.reduce((acc, destination) => {
+      if (tripDestinationIDs.includes(destination.id)) {
+        acc.push(destination)
+      }
+      return acc;
+    }, []);
   }
 }
 

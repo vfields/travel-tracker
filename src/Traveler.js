@@ -9,8 +9,12 @@ class Traveler {
     return this.name.split(' ', 1)[0];
   }
 
-  setTravelerData(dataName, dataset, property) {
-    this[dataName] = dataset.findTravelerData(this.id, property);
+  setTravelerTrips(dataset, property) {
+    this.trips = dataset.findTravelerTrips(this.id, property);
+  }
+
+  setTravelerDestinations(dataset) {
+    this.destinations = dataset.findTravelerDestinations(this.trips);
   }
 
 }
