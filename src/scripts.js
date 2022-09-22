@@ -44,6 +44,9 @@ const tripDuration = document.querySelector('#tripDuration');
 const numOfTravelers = document.querySelector('#numOfTravelers');
 const destinationChoices = document.querySelector('#destinationChoices');
 
+const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
+const tripEstimate = document.querySelector('.trip-estimate');
+
 // EVENT LISTENERS ************************************************
 
 // might be something to consider later:
@@ -54,10 +57,9 @@ const destinationChoices = document.querySelector('#destinationChoices');
 
 
 // refactor this!
-tripRequestForm.addEventListener('submit', function(event) {
-  event.preventDefault();
+tripRequestForm.addEventListener('input', function(event) {
   if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
-    calculateEstimatedTotal();
+    displayEstimate();
   }
 })
 
@@ -121,6 +123,11 @@ function displayDestinationChoices() {
     });
 }
 
+function displayEstimate() {
+  tripEstimate.innerText = calculateEstimatedTotal();
+  tripEstimateDisplay.classList.remove('hidden');
+}
+
 function calculateEstimatedTotal() {
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
   const userDestination = destinationDataset.data
@@ -129,9 +136,11 @@ function calculateEstimatedTotal() {
   const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
   const total = flightCosts + lodgingCosts;
   const totalWithFee = total * 1.10;
-  console.log('heres the estimate', totalWithFee);
+  // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
   return Math.round(totalWithFee * 100) / 100;
 }
+
+
 
 /// brainstorm ///
 function checkDate() {

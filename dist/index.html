@@ -29,31 +29,35 @@
   </section>
   <section class="trip-request-section">
     <h2>Make A Trip Request</h2>
+    <p>Fill out the form below to make a trip request. You will be shown an estimated total before you can submit your request!</p>
     <form class="trip-request-form">
       <div class="form-field">
         <label for="trip-date">Date:</label>
-        <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" />
+        <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
         <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="trip-duration">Trip Duration (days):</label>
-        <input name="trip-duration" id="tripDuration" placeholder="1" type="number" />
+        <input name="trip-duration" id="tripDuration" placeholder="1" type="number" min="1" required />
         <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="num-of-travelers">Number of Travelers:</label>
-        <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" />
+        <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
         <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="destination-choice">Destination:</label>
-        <select name="destination-choice" id="destinationChoices">
+        <select name="destination-choice" id="destinationChoices" required>
           <option value="">Select a destination!</option>
         </select>
         <span class="error-message"></span>
       </div>
-      <button type="submit" class="submit-btn">Request My Trip!</button>
     </form>
+    <article class="trip-estimate-display hidden">
+      <p>Trip Estimate: $<span class="trip-estimate">ESTIMATE</span></p>
+      <button type="button" class="request-trip-btn">Request Trip!</button>
+    </article>
   </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
