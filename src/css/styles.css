@@ -1,5 +1,17 @@
 /* BODY ************************************************* */
-body {
+section { /* delete this later */
+  border: 2px solid red;
+}
+
+.login-section {
+  border: 2px solid purple;
+  text-align: center;
+  /* display: flex row; */
+  /* justify-content: center;
+  align-items: center; */
+}
+
+main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
@@ -7,13 +19,9 @@ body {
   text-align: center;
 }
 
-header {
+.traveler-info-section {
   border: 2px solid red; /* delete this later */
   grid-column: span 3;
-}
-
-section { /* delete this later */
-  border: 2px solid red;
 }
 
 .trips {
