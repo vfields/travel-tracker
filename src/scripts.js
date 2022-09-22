@@ -67,19 +67,23 @@ tripRequestForm.addEventListener('input', function() {
 
 requestTripBtn.addEventListener('click', function() {
   // validate the data
+  // consider a trip class or some sort of function here,
+  // where you could pass the destination
+
+  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
+  const userDestination = destinationDataset.data
+    .find(destination => destination.destination === userSelection);
 
   const userInputData = {
-    // id: <number>,
+    id: Date.now(),
     userID: currentTraveler.id,
-    // destinationID: <number>,
+    destinationID: userDestination.id,
     travelers: parseInt(numOfTravelers.value),
     date: tripDate.value.split('-').join('/'),
     duration: parseInt(tripDuration.value),
     status: 'pending',
     suggestedActivities: []
   };
-
-  console.log(userInputData);
   // postData('trips', userInputData)
 })
 
