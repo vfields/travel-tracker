@@ -11,7 +11,7 @@
     <h1>Travel Tracker</h1>
     <p>Hello, <span class="traveler-first-name">TRAVELER</span>!</p>
     <p>As of today's date, <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
-    <p><span class="astericks">*</span>This total includes the 10% travel agent's fee and total flight cost of each trip!</p>
+    <p><span class="astericks">*</span>This total includes the 10% travel agent's fee and total flight and lodging costs of each trip!</p>
   </header>
   <section class="trips past-trips-section">
     <h2>Past Trips:</h2>
@@ -32,17 +32,17 @@
     <form class="trip-request-form">
       <div class="form-field">
         <label for="trip-date">Date:</label>
-        <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+        <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" />
         <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="trip-duration">Trip Duration (days):</label>
-        <input name="trip-duration" id="tripDuration" placeholder="0" type="number" min="1" required />
+        <input name="trip-duration" id="tripDuration" placeholder="1" type="number" />
         <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="num-of-travelers">Number of Travelers:</label>
-        <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
+        <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" />
         <span class="error-message"></span>
       </div>
       <div class="form-field">

@@ -33,7 +33,8 @@ class Traveler {
         if (pastTrips.includes(destination.id)) {
           const pastTrip = this.trips.find(trip => trip.destinationID === destination.id);
           const flightCosts = pastTrip.travelers * destination.estimatedFlightCostPerPerson;
-          const destinationCost = flightCosts + destination.estimatedLodgingCostPerDay;
+          const lodgingCosts = pastTrip.duration * destination.estimatedLodgingCostPerDay;
+          const destinationCost = flightCosts + lodgingCosts;
           acc += destinationCost;
         }
         return acc;

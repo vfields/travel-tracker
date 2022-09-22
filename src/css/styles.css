@@ -53,6 +53,10 @@ span {
 
 /* or */
 
+.error-message {
+  display: block;
+}
+
 .error {
   border: 2px solid pink;
 }

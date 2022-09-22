@@ -3,6 +3,7 @@ import './css/styles.css';
 import { fetchData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
+import { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let travelerDataset;
@@ -51,9 +52,13 @@ const destinationChoices = document.querySelector('#destinationChoices');
 //   console.log(input);
 // })
 
+
+// refactor this!
 tripRequestForm.addEventListener('submit', function(event) {
   event.preventDefault();
-  // console.log(numOfTravelers.parentElement)
+  if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
+    calculateEstimatedTotal();
+  }
 })
 
 
@@ -114,4 +119,50 @@ function displayDestinationChoices() {
       option.text = destination;
       destinationChoices.appendChild(option);
     });
+}
+
+function calculateEstimatedTotal() {
+  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
+  const userDestination = destinationDataset.data
+    .find(destination => destination.destination === userSelection);
+  const flightCosts = numOfTravelers.value * userDestination.estimatedFlightCostPerPerson;
+  const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
+  const total = flightCosts + lodgingCosts;
+  const totalWithFee = total * 1.10;
+  console.log('heres the estimate', totalWithFee);
+  return Math.round(totalWithFee * 100) / 100;
+}
+
+/// brainstorm ///
+function checkDate() {
+  let valid = false;
+  const date = tripDate.value;
+  if (!isRequired(date)) {
+    displayError(tripDate, 'Please select a date.');
+  }
+  else if (!isDateInFuture(date)) {
+    displayError(tripDate, 'Please choose a future date.')
+  }
+  else {
+    displaySuccess(tripDate);
+    valid = true;
+  }
+  return valid;
+}
+
+function checkNumberInput(input) {
+  let valid = false;
+  const value = parseInt(input.value);
+  console.log(value);
+  if (typeof value === 'NaN') {
+    displayError(input, 'Please enter a number.');
+  }
+  else if (!isBetween(value, 0)) {
+    displayError(input, 'Number must be greater than or equal to one.')
+  }
+  else {
+    displaySuccess(input);
+    valid = true;
+  }
+  return valid;
 }
