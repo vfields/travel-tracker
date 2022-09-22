@@ -24,11 +24,10 @@ function postData(dataset, userData) {
       if (!response.ok) {
         throw new Error('Not a 200 status');
       }
-      alert('Information submitted');
+      alert('Trip request successfully submitted!');
       return response.json();
     })
     .catch(error => {
-      console.log('POST error', error);
       alert('Oops, something went wrong. Try again later');
     });
 }

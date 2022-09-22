@@ -68,6 +68,7 @@ requestTripBtn.addEventListener('click', function() {
   // validate the data
   // consider a trip class or some sort of function here,
   // where you could pass the destination
+  // maybe not a trip class, maybe just a function or method
 
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
   const userDestination = destinationDataset.data
@@ -106,7 +107,6 @@ function displayTravelerTrips() {
   const today = new Date().toISOString().slice(0, 10).split('-').join('/');
   currentTraveler.trips.forEach(trip => {
     const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
-    // console.log('destination', destination)
     // manipulate trip date to display a range of days in second <p>
     if (trip.status === 'pending') {
       // pending trips
@@ -165,9 +165,7 @@ function calculateEstimatedTotal() {
   // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
 }
 
-
-
-/// brainstorm ///
+/// form stuff brainstorm ///
 function checkDate() {
   let valid = false;
   const date = tripDate.value;
