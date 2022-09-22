@@ -28,6 +28,7 @@ function postData(dataset, userData) {
       return response.json();
     })
     .catch(error => {
+      console.log('POST error', error);
       alert('Oops, something went wrong. Try again later');
     });
 }

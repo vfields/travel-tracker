@@ -61,7 +61,6 @@ const requestTripBtn = document.querySelector('.request-trip-btn');
 tripRequestForm.addEventListener('input', function() {
   if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
     displayEstimate();
-    console.log(currentTraveler.id);
   }
 })
 
@@ -84,7 +83,7 @@ requestTripBtn.addEventListener('click', function() {
     status: 'pending',
     suggestedActivities: []
   };
-  // postData('trips', userInputData)
+  postData('trips', userInputData)
 })
 
 
