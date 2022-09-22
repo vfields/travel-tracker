@@ -83,7 +83,9 @@ requestTripBtn.addEventListener('click', function() {
     status: 'pending',
     suggestedActivities: []
   };
+
   postData('trips', userInputData)
+    .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip));
 })
 
 
