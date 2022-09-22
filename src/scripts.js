@@ -19,7 +19,7 @@ Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations
 
 function setData(datasets) {
   travelerDataset = new Dataset(datasets[0]);
-  currentTraveler = new Traveler(travelerDataset.data[6]) // will likely need to be its own function with login functionality
+  currentTraveler = new Traveler(travelerDataset.data[7]) // will likely need to be its own function with login functionality
   tripDataset = new Dataset(datasets[1]);
   currentTraveler.setTravelerTrips(tripDataset, 'userID');
   // console.log('currentTraveler.trips', currentTraveler.trips);
