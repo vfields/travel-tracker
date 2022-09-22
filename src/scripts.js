@@ -156,8 +156,8 @@ function calculateEstimatedTotal() {
   const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
   const total = flightCosts + lodgingCosts;
   const totalWithFee = total * 1.10;
+  return (Math.round(totalWithFee * 100) / 100).toFixed(2)
   // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
-  return Math.round(totalWithFee * 100) / 100;
 }
 
 
