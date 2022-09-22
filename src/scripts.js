@@ -1,6 +1,6 @@
 // DEPENDENCIES **************************************************
 import './css/styles.css';
-import { fetchData } from './apiCalls';
+import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
 import { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
@@ -46,6 +46,7 @@ const destinationChoices = document.querySelector('#destinationChoices');
 
 const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
 const tripEstimate = document.querySelector('.trip-estimate');
+const requestTripBtn = document.querySelector('.request-trip-btn');
 
 // EVENT LISTENERS ************************************************
 
@@ -57,10 +58,29 @@ const tripEstimate = document.querySelector('.trip-estimate');
 
 
 // refactor this!
-tripRequestForm.addEventListener('input', function(event) {
+tripRequestForm.addEventListener('input', function() {
   if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
     displayEstimate();
+    console.log(currentTraveler.id);
   }
+})
+
+requestTripBtn.addEventListener('click', function() {
+  // validate the data
+
+  const userInputData = {
+    // id: <number>,
+    userID: currentTraveler.id,
+    // destinationID: <number>,
+    travelers: parseInt(numOfTravelers.value),
+    date: tripDate.value.split('-').join('/'),
+    duration: parseInt(tripDuration.value),
+    status: 'pending',
+    suggestedActivities: []
+  };
+
+  console.log(userInputData);
+  // postData('trips', userInputData)
 })
 
 
