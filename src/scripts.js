@@ -1,10 +1,11 @@
 // DEPENDENCIES **************************************************
 import './css/styles.css';
-import { fetchData } from './apiCalls';
+import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
+import { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
 
-// GLOBAL DATA ***************************************************
+// GLOBAL DATA ****************************************************
 let travelerDataset;
 let tripDataset;
 let destinationDataset;
@@ -36,7 +37,58 @@ const travelerTotalSpent = document.querySelector('.total-spent');
 const pastTripsSection = document.querySelector('.past-trips-section');
 const pendingTripsSection = document.querySelector('.pending-trips-section');
 const upcomingTripsSection = document.querySelector('.upcoming-trips-section');
-const destinationChoices = document.querySelector('.destination-choices');
+
+const tripRequestForm = document.querySelector('.trip-request-form');
+const tripDate = document.querySelector('#tripDate');
+const tripDuration = document.querySelector('#tripDuration');
+const numOfTravelers = document.querySelector('#numOfTravelers');
+const destinationChoices = document.querySelector('#destinationChoices');
+
+const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
+const tripEstimate = document.querySelector('.trip-estimate');
+const requestTripBtn = document.querySelector('.request-trip-btn');
+
+// EVENT LISTENERS ************************************************
+
+// might be something to consider later:
+// const allRequiredInputs = Array.from(document.querySelectorAll('[required]'));
+// allRequiredInputs.forEach(input => {
+//   console.log(input);
+// })
+
+
+// refactor this!
+tripRequestForm.addEventListener('input', function() {
+  if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
+    displayEstimate();
+  }
+})
+
+requestTripBtn.addEventListener('click', function() {
+  // validate the data
+  // consider a trip class or some sort of function here,
+  // where you could pass the destination
+  // maybe not a trip class, maybe just a function or method
+
+  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
+  const userDestination = destinationDataset.data
+    .find(destination => destination.destination === userSelection);
+
+  const userInputData = {
+    id: Date.now(),
+    userID: currentTraveler.id,
+    destinationID: userDestination.id,
+    travelers: parseInt(numOfTravelers.value),
+    date: tripDate.value.split('-').join('/'),
+    duration: parseInt(tripDuration.value),
+    status: 'pending',
+    suggestedActivities: []
+  };
+
+  postData('trips', userInputData)
+    .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip));
+})
+
 
 // FUNCTIONS ******************************************************
 function displayData() {
@@ -55,7 +107,6 @@ function displayTravelerTrips() {
   const today = new Date().toISOString().slice(0, 10).split('-').join('/');
   currentTraveler.trips.forEach(trip => {
     const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
-    // console.log('destination', destination)
     // manipulate trip date to display a range of days in second <p>
     if (trip.status === 'pending') {
       // pending trips
@@ -83,11 +134,67 @@ function createTripCard(section, destination, trip) {
 }
 
 function displayDestinationChoices() {
-  // consider alphabetizing these in the future
-  destinationDataset.data.forEach(destination => {
-    const option = document.createElement('option');
-    option.value = destination.destination;
-    option.text = destination.destination;
-    destinationChoices.appendChild(option);
-  });
+  destinationDataset.data
+    .reduce((acc, destination) => {
+      acc.push(destination.destination);
+      return acc;
+    }, [])
+    .sort()
+    .forEach(destination => {
+      const option = document.createElement('option');
+      option.value = destination;
+      option.text = destination;
+      destinationChoices.appendChild(option);
+    });
+}
+
+function displayEstimate() {
+  tripEstimate.innerText = calculateEstimatedTotal();
+  tripEstimateDisplay.classList.remove('hidden');
+}
+
+function calculateEstimatedTotal() {
+  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
+  const userDestination = destinationDataset.data
+    .find(destination => destination.destination === userSelection);
+  const flightCosts = numOfTravelers.value * userDestination.estimatedFlightCostPerPerson;
+  const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
+  const total = flightCosts + lodgingCosts;
+  const totalWithFee = total * 1.10;
+  return (Math.round(totalWithFee * 100) / 100).toFixed(2)
+  // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
+}
+
+/// form stuff brainstorm ///
+function checkDate() {
+  let valid = false;
+  const date = tripDate.value;
+  if (!isRequired(date)) {
+    displayError(tripDate, 'Please select a date.');
+  }
+  else if (!isDateInFuture(date)) {
+    displayError(tripDate, 'Please choose a future date.')
+  }
+  else {
+    displaySuccess(tripDate);
+    valid = true;
+  }
+  return valid;
+}
+
+function checkNumberInput(input) {
+  let valid = false;
+  const value = parseInt(input.value);
+  console.log(value);
+  if (typeof value === 'NaN') {
+    displayError(input, 'Please enter a number.');
+  }
+  else if (!isBetween(value, 0)) {
+    displayError(input, 'Number must be greater than or equal to one.')
+  }
+  else {
+    displaySuccess(input);
+    valid = true;
+  }
+  return valid;
 }

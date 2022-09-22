@@ -36,6 +36,30 @@ section { /* delete this later */
   overflow: hidden;
 }
 
+/* FORM ************************************************ */
+
+/* :invalid {
+  border: 2px solid orange;
+}
+
+:valid {
+  border: 2px solid green;
+} */
+
+/* or */
+
+.error-message {
+  display: block;
+}
+
+.error {
+  border: 2px solid pink;
+}
+
+.success {
+  border: 2px solid green;
+}
+
 /* TEXT ************************************************ */
 span {
   color: red;
