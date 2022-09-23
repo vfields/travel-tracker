@@ -7,60 +7,77 @@
   <title>Travel Tracker</title>
 </head>
 <body>
-  <header>
-    <h1>Travel Tracker</h1>
-    <p>Hello, <span class="traveler-first-name">TRAVELER</span>!</p>
-    <p>As of today's date, <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
-    <p><span class="astericks">*</span>This total includes the 10% travel agent's fee and total flight and lodging costs of each trip!</p>
-  </header>
-  <section class="trips past-trips-section">
-    <h2>Past Trips:</h2>
-    <!-- <article class="trip-card" tabindex="0">
-      <p>Destination: <span>DESTINATION NAME</span></p>
-      <p>Travel Date: <span>TRAVEL DATE</span></p>
-      <img src="https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80">
-    </article> -->
-  </section>
-  <section class="trips pending-trips-section">
-    <h2>Pending Trips:</h2>
-  </section>
-  <section class="trips upcoming-trips-section">
-    <h2>Upcoming Trips:</h2>
-  </section>
-  <section class="trip-request-section">
-    <h2>Make A Trip Request</h2>
-    <p>Fill out the form below to make a trip request. You will be shown an estimated total before you can submit your request!</p>
-    <form class="trip-request-form">
+  <section class="login-section">
+    <h1>Welcome!</h1>
+    <form class="user-login">
       <div class="form-field">
-        <label for="tripDate">Date:</label>
-        <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+        <label for="username">Username:</label>
+        <input name="username" id="username" placeholder="Username" type="string" required />
         <span class="error-message"></span>
       </div>
       <div class="form-field">
-        <label for="tripDuration">Trip Duration (days):</label>
-        <input name="trip-duration" id="tripDuration" placeholder="1" type="number" min="1" required />
-        <span class="error-message"></span>
-      </div>
-      <div class="form-field">
-        <label for="numOfTravelers">Number of Travelers:</label>
-        <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
-        <span class="error-message"></span>
-      </div>
-      <div class="form-field">
-        <label for="destinationChoices">Destination:</label>
-        <select name="destination-choice" id="destinationChoices" required>
-          <option value="">Select a destination!</option>
-        </select>
+        <label for="password">Password:</label>
+        <input name="trip-duration" id="password" placeholder="Password" type="string" required />
         <span class="error-message"></span>
       </div>
     </form>
-    <article class="trip-estimate-display hidden">
-      <p>Trip Estimate: $<span class="trip-estimate">ESTIMATE</span></p>
-      <button type="button" class="request-trip-btn">Request Trip!</button>
-    </article>
+    <button type="button" class="login-btn">Log In!</button>
   </section>
+  <main class="hidden">
+    <section class="traveler-info-section">
+      <h1>Travel Tracker</h1>
+      <p>Hello, <span class="traveler-first-name">TRAVELER</span>!</p>
+      <p>As of today's date, <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
+      <p><span class="astericks">*</span>This total includes the 10% travel agent's fee and total flight and lodging costs of each trip!</p>
+    </section>
+    <section class="trips past-trips-section">
+      <h2>Past Trips:</h2>
+      <!-- <article class="trip-card" tabindex="0">
+        <p>Destination: <span>DESTINATION NAME</span></p>
+        <p>Travel Date: <span>TRAVEL DATE</span></p>
+        <img src="https://images.unsplash.com/photo-1489171084589-9b5031ebcf9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2089&q=80">
+      </article> -->
+    </section>
+    <section class="trips pending-trips-section">
+      <h2>Pending Trips:</h2>
+    </section>
+    <section class="trips upcoming-trips-section">
+      <h2>Upcoming Trips:</h2>
+    </section>
+    <section class="trip-request-section">
+      <h2>Make A Trip Request</h2>
+      <p>Fill out the form below to make a trip request. You will be shown an estimated total before you can submit your request!</p>
+      <form class="trip-request-form">
+        <div class="form-field">
+          <label for="tripDate">Date:</label>
+          <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+          <span class="error-message"></span>
+        </div>
+        <div class="form-field">
+          <label for="tripDuration">Trip Duration (days):</label>
+          <input name="trip-duration" id="tripDuration" placeholder="1" type="number" min="1" required />
+          <span class="error-message"></span>
+        </div>
+        <div class="form-field">
+          <label for="numOfTravelers">Number of Travelers:</label>
+          <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
+          <span class="error-message"></span>
+        </div>
+        <div class="form-field">
+          <label for="destinationChoices">Destination:</label>
+          <select name="destination-choice" id="destinationChoices" required>
+            <option value="">Select a destination!</option>
+          </select>
+          <span class="error-message"></span>
+        </div>
+      </form>
+      <article class="trip-estimate-display hidden">
+        <p>Trip Estimate: $<span class="trip-estimate">ESTIMATE</span></p>
+        <button type="button" class="request-trip-btn">Request Trip!</button>
+      </article>
+    </section>
+  </main>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
-
 </body>
 </html>
