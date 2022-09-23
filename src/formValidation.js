@@ -5,7 +5,7 @@ function checkUsername(input) {
     valid = true;
   }
   // else {
-  //   displayError(input, 'Incorrect username, try again!');
+  //   displayError(input, 'Invalid username, try again!');
   // }
   return valid;
 }
@@ -51,11 +51,23 @@ function isSelected(list) {
 }
 
 function displayError(input, message) {
+    const formField = input.parentElement;
+    formField.classList.remove('success');
+    formField.classList.add('error');
+    formField.querySelector('.error-message').textContent = '';
+    formField.querySelector('.error-message').textContent = message;
+    // after some time has past, reset everything
+    // setTimeout(() => {
+    //   input.value = '';
+    //   formField.classList.remove('error');
+    //   formField.querySelector('.error-message').textContent = '';
+    // }, 3000);
+}
+
+function removeError(input) {
   const formField = input.parentElement;
-  formField.classList.remove('success');
-  formField.classList.add('error');
+  formField.classList.remove('error');
   formField.querySelector('.error-message').textContent = '';
-  formField.querySelector('.error-message').textContent = message;
 }
 
 function displaySuccess(input) {
@@ -67,4 +79,4 @@ function displaySuccess(input) {
 }
 
 
-export { checkUsername, checkPassword, isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess };
+export { checkUsername, checkPassword, isRequired, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess };

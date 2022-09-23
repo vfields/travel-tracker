@@ -3,7 +3,7 @@ import './css/styles.css';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { checkUsername, checkPassword, isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
+import { checkUsername, checkPassword, isRequired, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -29,16 +29,20 @@ const tripDate = document.querySelector('#tripDate');
 const tripDuration = document.querySelector('#tripDuration');
 const numOfTravelers = document.querySelector('#numOfTravelers');
 const destinationChoices = document.querySelector('#destinationChoices');
+const allTripRequestInputs = Array.from(document.querySelectorAll('[required]'));
 
 const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
 const tripEstimate = document.querySelector('.trip-estimate');
 const requestTripBtn = document.querySelector('.request-trip-btn');
 
+const postResponseDisplay = document.querySelector('.post-response-display');
+const postResponseMessage = document.querySelector('.post-response-message');
+const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
+
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
 
 // might be something to consider later:
-// const allRequiredInputs = Array.from(document.querySelectorAll('[required]'));
 // allRequiredInputs.forEach(input => {
 //   console.log(input);
 // })
@@ -53,7 +57,6 @@ tripRequestForm.addEventListener('input', function() {
 
 requestTripBtn.addEventListener('click', function() {
   // validate the data
-
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
   const userDestination = destinationDataset.findSelectedDestination(userSelection);
 
@@ -64,13 +67,16 @@ requestTripBtn.addEventListener('click', function() {
     travelers: parseInt(numOfTravelers.value),
     date: tripDate.value.split('-').join('/'),
     duration: parseInt(tripDuration.value),
-    status: 'pending',
+    // status: 'pending',
     suggestedActivities: []
   };
 
   postData('trips', userInputData)
-    .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip));
+    .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip))
+    .then(() => displayPOSTSuccess());
 })
+
+resetRequestFormBtn.addEventListener('click', resetTripRequest);
 
 // FUNCTIONS ******************************************************
 function attemptLogin() {
@@ -81,9 +87,17 @@ function attemptLogin() {
       });
     displayMain();
   }
-  else {
-    console.log('this is the wrong combo!');
-  }
+  // else {
+  //   displayError(password, 'Invalid username and/or password. Please try again.');
+    // loginBtn.innerText = "Try Again";
+    // loginBtn.addEventListener('click', function () {
+    //   username.value = '';
+    //   password.value = '';
+    //   loginBtn.innerText = 'Log In!';
+    //   removeError(password);
+    //   loginBtn.addEventListener('click', attemptLogin);
+    // })
+  // }
 }
 
 function setData(datasets) {
@@ -170,7 +184,31 @@ function calculateEstimatedTotal() {
   return (Math.round(totalWithFee * 100) / 100).toFixed(2);
 }
 
-/// trip request form stuff brainstorm ///
+function displayPOSTSuccess() {
+  postResponseDisplay.classList.remove('hidden');
+  tripEstimateDisplay.classList.add('hidden');
+}
+
+function resetTripRequest() {
+  postResponseDisplay.classList.add('hidden');
+  allTripRequestInputs.forEach(input => {
+    input.value = '';
+  })
+}
+
+function displayPOSTError(error) {
+  postResponseDisplay.classList.remove('hidden');
+  resetRequestFormBtn.classList.add('hidden');
+  tripEstimateDisplay.classList.add('hidden');
+  if (error.message[0] === '5') {
+    postResponseMessage.innerText = 'Oops! Something is wrong with the server. Please try again later!'
+  }
+  else {
+    postResponseMessage.innerText = `Something isn't right. Please try again later!`
+  }
+}
+
+/// trip request form validation stuff brainstorm ///
 
 function checkDate() {
   let valid = false;
@@ -204,3 +242,5 @@ function checkNumberInput(input) {
   }
   return valid;
 }
+
+export { displayPOSTError };

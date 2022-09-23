@@ -1,3 +1,5 @@
+import { displayPOSTError } from './scripts.js';
+
 function fetchData(dataset) {
   return fetch(`http://localhost:3001/api/v1/${dataset}`)
     .then(response => {
@@ -7,6 +9,7 @@ function fetchData(dataset) {
       return response.json();
     })
     .catch(error => {
+      // console.log(error);
       alert('Oops, something went wrong. Try refreshing your page.');
     })
 }
@@ -21,13 +24,12 @@ function postData(dataset, userData) {
   return fetch(`http://localhost:3001/api/v1/${dataset}`, requestData)
     .then(response => {
       if (!response.ok) {
-        throw new Error('Not a 200 status');
+        throw new Error(`${response.status}`);
       }
-      alert('Trip request successfully submitted!');
       return response.json();
     })
     .catch(error => {
-      alert('Oops, something went wrong. Try again later');
+      displayPOSTError(error);
     });
 }
 
