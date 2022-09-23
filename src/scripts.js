@@ -6,31 +6,17 @@ import Dataset from './Dataset.js';
 import { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
-let travelerDataset;
 let tripDataset;
 let destinationDataset;
 let currentTraveler;
 
-// FETCH DATA *****************************************************
-Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
-  .then(datasets => {
-    setData(datasets);
-  });
-
-function setData(datasets) {
-  travelerDataset = new Dataset(datasets[0]);
-  currentTraveler = new Traveler(travelerDataset.data[6]) // will likely need to be its own function with login functionality
-  tripDataset = new Dataset(datasets[1]);
-  currentTraveler.setTravelerTrips(tripDataset, 'userID');
-  // console.log('currentTraveler.trips', currentTraveler.trips);
-  destinationDataset = new Dataset(datasets[2]);
-  // console.log('destinationDataset', destinationDataset.data)
-  currentTraveler.setTravelerDestinations(destinationDataset);
-  // console.log('currentTraveler.destinations', currentTraveler.destinations);
-  displayData();
-};
-
 // DOM ELEMENTS ***************************************************
+const username = document.querySelector('#username');
+const password = document.querySelector('#password');
+const loginBtn = document.querySelector('.login-btn');
+const loginSection = document.querySelector('.login-section');
+const mainSection = document.querySelector('main');
+
 const travelerFirstName = document.querySelector('.traveler-first-name');
 const todaysDate = document.querySelector('.todays-date');
 const travelerTotalSpent = document.querySelector('.total-spent');
@@ -49,6 +35,44 @@ const tripEstimate = document.querySelector('.trip-estimate');
 const requestTripBtn = document.querySelector('.request-trip-btn');
 
 // EVENT LISTENERS ************************************************
+loginBtn.addEventListener('click', function() {
+  if (checkUsername(username) && checkPassword(password)) {
+    Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
+      .then(datasets => {
+        setData(datasets);
+      });
+    loginSection.classList.add('hidden');
+    mainSection.classList.remove('hidden');
+    console.log('this is the right combo!');
+  }
+  else {
+    console.log('this is the wrong combo!');
+  }
+});
+
+function checkUsername(input) {
+  let valid = false;
+  const id = parseInt(input.value.slice(8));
+  if (input.value.slice(0, 8) === 'traveler' && id > 0 && id < 51) {
+    valid = true;
+  }
+  // else {
+  //   displayError(input, 'Incorrect username, try again!');
+  // }
+  return valid;
+}
+
+function checkPassword(input) {
+  let valid = false;
+  if (input.value === 'travel') {
+    valid = true;
+  }
+  // else {
+  //   displayError(input, 'Incorrect password, try again!');
+  // }
+  return valid;
+}
+
 
 // might be something to consider later:
 // const allRequiredInputs = Array.from(document.querySelectorAll('[required]'));
@@ -89,8 +113,16 @@ requestTripBtn.addEventListener('click', function() {
     .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip));
 })
 
-
 // FUNCTIONS ******************************************************
+function setData(datasets) {
+  currentTraveler = new Traveler(datasets[0]);
+  tripDataset = new Dataset(datasets[1].trips);
+  destinationDataset = new Dataset(datasets[2].destinations);
+  currentTraveler.setTravelerTrips(tripDataset, 'userID');
+  currentTraveler.setTravelerDestinations(destinationDataset);
+  displayData();
+};
+
 function displayData() {
   displayTravelerInfo();
   displayTravelerTrips();
@@ -165,7 +197,8 @@ function calculateEstimatedTotal() {
   // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
 }
 
-/// form stuff brainstorm ///
+/// trip request form stuff brainstorm ///
+
 function checkDate() {
   let valid = false;
   const date = tripDate.value;

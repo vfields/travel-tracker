@@ -4,11 +4,8 @@ section { /* delete this later */
 }
 
 .login-section {
-  border: 2px solid purple;
+  border: 2px solid purple; /* refactor/delete later */
   text-align: center;
-  /* display: flex row; */
-  /* justify-content: center;
-  align-items: center; */
 }
 
 main {
