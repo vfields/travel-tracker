@@ -13,8 +13,10 @@ let currentTraveler;
 // DOM ELEMENTS ***************************************************
 const username = document.querySelector('#username');
 const password = document.querySelector('#password');
-const loginBtn = document.querySelector('.login-btn');
 const loginSection = document.querySelector('.login-section');
+const loginBtn = document.querySelector('.login-btn');
+const loginErrorDisplay = document.querySelector('.login-error-display');
+const loginTryAgainBtn = document.querySelector('.login-try-again-btn');
 const mainSection = document.querySelector('main');
 
 const travelerFirstName = document.querySelector('.traveler-first-name');
@@ -38,9 +40,17 @@ const requestTripBtn = document.querySelector('.request-trip-btn');
 const postResponseDisplay = document.querySelector('.post-response-display');
 const postResponseMessage = document.querySelector('.post-response-message');
 const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
-
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
+loginTryAgainBtn.addEventListener('click', resetLogin);
+
+function resetLogin() {
+  loginErrorDisplay.classList.add('hidden');
+  loginBtn.classList.remove('hidden');
+  username.value = '';
+  password.value = '';
+}
+
 
 tripRequestForm.addEventListener('input', function() {
   // refactor this?
@@ -86,17 +96,11 @@ function attemptLogin() {
         displayGETError(error);
       });
   }
-  // else {
-  //   displayError(password, 'Invalid username and/or password. Please try again.');
-    // loginBtn.innerText = "Try Again";
-    // loginBtn.addEventListener('click', function () {
-    //   username.value = '';
-    //   password.value = '';
-    //   loginBtn.innerText = 'Log In!';
-    //   removeError(password);
-    //   loginBtn.addEventListener('click', attemptLogin);
-    // })
-  // }
+  else {
+    // displayLoginError();
+    loginErrorDisplay.classList.remove('hidden');
+    loginBtn.classList.add('hidden');
+  }
 }
 
 // ERROR HANDLERS *************************************************
