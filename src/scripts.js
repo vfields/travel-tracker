@@ -42,8 +42,8 @@ const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
 
-// refactor this?
 tripRequestForm.addEventListener('input', function() {
+  // refactor this?
   if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
     displayEstimate();
   }
@@ -66,16 +66,38 @@ requestTripBtn.addEventListener('click', function() {
   };
 
   postData('trips', userInputData)
-    .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip))
-    .then(() => displayPOSTSuccess())
-    .catch(error => {
-      displayPOSTError(error);
-    });
+    .then(responseJSON => {
+      displayPOSTSuccess();
+      createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip);
+    })
+    .catch(error => displayPOSTError(error));
 })
 
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
 
 // EVENT HANDLERS *************************************************
+function attemptLogin() {
+  if (checkUsername(username) && checkPassword(password)) {
+    Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
+      .then(datasets => {
+        setData(datasets);
+      })
+      .catch(error => {
+        displayGETError(error);
+      });
+  }
+  // else {
+  //   displayError(password, 'Invalid username and/or password. Please try again.');
+    // loginBtn.innerText = "Try Again";
+    // loginBtn.addEventListener('click', function () {
+    //   username.value = '';
+    //   password.value = '';
+    //   loginBtn.innerText = 'Log In!';
+    //   removeError(password);
+    //   loginBtn.addEventListener('click', attemptLogin);
+    // })
+  // }
+}
 
 // ERROR HANDLERS *************************************************
 function displayGETError(error) {
@@ -98,32 +120,6 @@ function displayPOSTError(error) {
 }
 
 // FUNCTIONS ******************************************************
-function attemptLogin() {
-  if (checkUsername(username) && checkPassword(password)) {
-    Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
-      .then(datasets => {
-        setData(datasets);
-      })
-      .then(() => {
-        displayMain();
-      })
-      .catch(error => {
-        displayGETError(error);
-      });
-  }
-  // else {
-  //   displayError(password, 'Invalid username and/or password. Please try again.');
-    // loginBtn.innerText = "Try Again";
-    // loginBtn.addEventListener('click', function () {
-    //   username.value = '';
-    //   password.value = '';
-    //   loginBtn.innerText = 'Log In!';
-    //   removeError(password);
-    //   loginBtn.addEventListener('click', attemptLogin);
-    // })
-  // }
-}
-
 function setData(datasets) {
   currentTraveler = new Traveler(datasets[0]);
   tripDataset = new Dataset(datasets[1].trips);
@@ -134,9 +130,15 @@ function setData(datasets) {
 };
 
 function displayData() {
+  displayMain();
   displayTravelerInfo();
   displayTravelerTrips();
   displayDestinationChoices();
+}
+
+function displayMain() {
+  loginSection.classList.add('hidden');
+  mainSection.classList.remove('hidden');
 }
 
 function displayTravelerInfo() {
@@ -185,11 +187,6 @@ function displayDestinationChoices() {
       option.text = destination;
       destinationChoices.appendChild(option);
     });
-}
-
-function displayMain() {
-  loginSection.classList.add('hidden');
-  mainSection.classList.remove('hidden');
 }
 
 function displayEstimate() {
