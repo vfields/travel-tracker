@@ -1,4 +1,25 @@
-//consider isValidUN with Regex and isValidPW with string literal for loggin
+function checkUsername(input) {
+  let valid = false;
+  const id = parseInt(input.value.slice(8));
+  if (input.value.slice(0, 8) === 'traveler' && id > 0 && id < 51) {
+    valid = true;
+  }
+  // else {
+  //   displayError(input, 'Incorrect username, try again!');
+  // }
+  return valid;
+}
+
+function checkPassword(input) {
+  let valid = false;
+  if (input.value === 'travel') {
+    valid = true;
+  }
+  // else {
+  //   displayError(input, 'Incorrect password, try again!');
+  // }
+  return valid;
+}
 
 function isRequired(value) {
   return value === '' ? false : true;
@@ -46,4 +67,4 @@ function displaySuccess(input) {
 }
 
 
-export { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess };
+export { checkUsername, checkPassword, isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess };

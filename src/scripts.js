@@ -3,7 +3,7 @@ import './css/styles.css';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
+import { checkUsername, checkPassword, isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -35,44 +35,7 @@ const tripEstimate = document.querySelector('.trip-estimate');
 const requestTripBtn = document.querySelector('.request-trip-btn');
 
 // EVENT LISTENERS ************************************************
-loginBtn.addEventListener('click', function() {
-  if (checkUsername(username) && checkPassword(password)) {
-    Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
-      .then(datasets => {
-        setData(datasets);
-      });
-    loginSection.classList.add('hidden');
-    mainSection.classList.remove('hidden');
-    console.log('this is the right combo!');
-  }
-  else {
-    console.log('this is the wrong combo!');
-  }
-});
-
-function checkUsername(input) {
-  let valid = false;
-  const id = parseInt(input.value.slice(8));
-  if (input.value.slice(0, 8) === 'traveler' && id > 0 && id < 51) {
-    valid = true;
-  }
-  // else {
-  //   displayError(input, 'Incorrect username, try again!');
-  // }
-  return valid;
-}
-
-function checkPassword(input) {
-  let valid = false;
-  if (input.value === 'travel') {
-    valid = true;
-  }
-  // else {
-  //   displayError(input, 'Incorrect password, try again!');
-  // }
-  return valid;
-}
-
+loginBtn.addEventListener('click', attemptLogin);
 
 // might be something to consider later:
 // const allRequiredInputs = Array.from(document.querySelectorAll('[required]'));
@@ -90,13 +53,9 @@ tripRequestForm.addEventListener('input', function() {
 
 requestTripBtn.addEventListener('click', function() {
   // validate the data
-  // consider a trip class or some sort of function here,
-  // where you could pass the destination
-  // maybe not a trip class, maybe just a function or method
 
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
-  const userDestination = destinationDataset.data
-    .find(destination => destination.destination === userSelection);
+  const userDestination = destinationDataset.findSelectedDestination(userSelection);
 
   const userInputData = {
     id: Date.now(),
@@ -114,6 +73,19 @@ requestTripBtn.addEventListener('click', function() {
 })
 
 // FUNCTIONS ******************************************************
+function attemptLogin() {
+  if (checkUsername(username) && checkPassword(password)) {
+    Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
+      .then(datasets => {
+        setData(datasets);
+      });
+    displayMain();
+  }
+  else {
+    console.log('this is the wrong combo!');
+  }
+}
+
 function setData(datasets) {
   currentTraveler = new Traveler(datasets[0]);
   tripDataset = new Dataset(datasets[1].trips);
@@ -141,15 +113,12 @@ function displayTravelerTrips() {
     const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
     // manipulate trip date to display a range of days in second <p>
     if (trip.status === 'pending') {
-      // pending trips
       createTripCard(pendingTripsSection, destination, trip);
     }
     else if (trip.date < today) {
-      // past trips
       createTripCard(pastTripsSection, destination, trip);
     }
     else {
-      // upcoming trips
       createTripCard(upcomingTripsSection, destination, trip);
     }
   })
@@ -180,6 +149,11 @@ function displayDestinationChoices() {
     });
 }
 
+function displayMain() {
+  loginSection.classList.add('hidden');
+  mainSection.classList.remove('hidden');
+}
+
 function displayEstimate() {
   tripEstimate.innerText = calculateEstimatedTotal();
   tripEstimateDisplay.classList.remove('hidden');
@@ -187,14 +161,13 @@ function displayEstimate() {
 
 function calculateEstimatedTotal() {
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
-  const userDestination = destinationDataset.data
-    .find(destination => destination.destination === userSelection);
+  // this is repetitive... must be a way to make dynamic with Traveler class... not sure how yet!
+  const userDestination = destinationDataset.findSelectedDestination(userSelection);
   const flightCosts = numOfTravelers.value * userDestination.estimatedFlightCostPerPerson;
   const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
   const total = flightCosts + lodgingCosts;
   const totalWithFee = total * 1.10;
-  return (Math.round(totalWithFee * 100) / 100).toFixed(2)
-  // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
+  return (Math.round(totalWithFee * 100) / 100).toFixed(2);
 }
 
 /// trip request form stuff brainstorm ///
