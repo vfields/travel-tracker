@@ -42,13 +42,7 @@ const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
 
-// might be something to consider later:
-// allRequiredInputs.forEach(input => {
-//   console.log(input);
-// })
-
-
-// refactor this!
+// refactor this?
 tripRequestForm.addEventListener('input', function() {
   if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
     displayEstimate();
@@ -80,6 +74,28 @@ requestTripBtn.addEventListener('click', function() {
 })
 
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
+
+// EVENT HANDLERS *************************************************
+
+// ERROR HANDLERS *************************************************
+function displayGETError(error) {
+  loginSection.innerHTML = ``;
+  loginSection.innerHTML += `
+    <h1>Oops! Something went wrong. Please try again later!</h1>
+  `;
+}
+
+function displayPOSTError(error) {
+  postResponseDisplay.classList.remove('hidden');
+  resetRequestFormBtn.classList.add('hidden');
+  tripEstimateDisplay.classList.add('hidden');
+  if (error.message[0] === '5') {
+    postResponseMessage.innerText = 'Oops! Something is wrong with the server. Please try submitting this form again later!';
+  }
+  else {
+    postResponseMessage.innerText = `Something isn't right. Please try submitting this form again later!`;
+  }
+}
 
 // FUNCTIONS ******************************************************
 function attemptLogin() {
@@ -171,13 +187,6 @@ function displayDestinationChoices() {
     });
 }
 
-function displayGETError(error) {
-  loginSection.innerHTML = ``;
-  loginSection.innerHTML += `
-    <h1>Oops! Something went wrong. Please try again later!</h1>
-  `;
-}
-
 function displayMain() {
   loginSection.classList.add('hidden');
   mainSection.classList.remove('hidden');
@@ -209,18 +218,6 @@ function resetTripRequest() {
   allTripRequestInputs.forEach(input => {
     input.value = '';
   })
-}
-
-function displayPOSTError(error) {
-  postResponseDisplay.classList.remove('hidden');
-  resetRequestFormBtn.classList.add('hidden');
-  tripEstimateDisplay.classList.add('hidden');
-  if (error.message[0] === '5') {
-    postResponseMessage.innerText = 'Oops! Something is wrong with the server. Please try again later!'
-  }
-  else {
-    postResponseMessage.innerText = `Something isn't right. Please try again later!`
-  }
 }
 
 /// trip request form validation stuff brainstorm ///
