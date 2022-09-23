@@ -67,13 +67,16 @@ requestTripBtn.addEventListener('click', function() {
     travelers: parseInt(numOfTravelers.value),
     date: tripDate.value.split('-').join('/'),
     duration: parseInt(tripDuration.value),
-    // status: 'pending',
+    status: 'pending',
     suggestedActivities: []
   };
 
   postData('trips', userInputData)
     .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip))
-    .then(() => displayPOSTSuccess());
+    .then(() => displayPOSTSuccess())
+    .catch(error => {
+      displayPOSTError(error);
+    });
 })
 
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
@@ -84,8 +87,13 @@ function attemptLogin() {
     Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
       .then(datasets => {
         setData(datasets);
+      })
+      .then(() => {
+        displayMain();
+      })
+      .catch(error => {
+        displayGETError(error);
       });
-    displayMain();
   }
   // else {
   //   displayError(password, 'Invalid username and/or password. Please try again.');
@@ -161,6 +169,13 @@ function displayDestinationChoices() {
       option.text = destination;
       destinationChoices.appendChild(option);
     });
+}
+
+function displayGETError(error) {
+  loginSection.innerHTML = ``;
+  loginSection.innerHTML += `
+    <h1>Oops! Something went wrong. Please try again later!</h1>
+  `;
 }
 
 function displayMain() {
