@@ -28,10 +28,11 @@ const upcomingTripsSection = document.querySelector('.upcoming-trips-section');
 
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
+// const tripDateError = document.querySelector('.trip-date-error-message');
 const tripDuration = document.querySelector('#tripDuration');
 const numOfTravelers = document.querySelector('#numOfTravelers');
 const destinationChoices = document.querySelector('#destinationChoices');
-const allTripRequestInputs = Array.from(document.querySelectorAll('[required]'));
+const allTripRequestInputs = Array.from(document.querySelectorAll('.trip-request-input'));
 
 const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
 const tripEstimate = document.querySelector('.trip-estimate');
@@ -40,24 +41,32 @@ const requestTripBtn = document.querySelector('.request-trip-btn');
 const postResponseDisplay = document.querySelector('.post-response-display');
 const postResponseMessage = document.querySelector('.post-response-message');
 const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
+
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
 loginTryAgainBtn.addEventListener('click', resetLogin);
 
-function resetLogin() {
-  loginErrorDisplay.classList.add('hidden');
-  loginBtn.classList.remove('hidden');
-  username.value = '';
-  password.value = '';
-}
-
-
 tripRequestForm.addEventListener('input', function() {
-  // refactor this?
-  if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
+  // refactor this? yep, array!
+  // can use probably use allTripRequestInputs here
+  if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isRequired(destinationChoices.value)) {
     displayEstimate();
   }
+  else {
+    tripEstimateDisplay.classList.add('hidden');
+  }
 })
+
+/* thinking about this... */
+// tripDate.addEventListener('change', function() {
+//   if (!isDateInFuture(tripDate.value)) {
+//     tripDateError.classList.remove('hidden');
+//   }
+//   else {
+//     tripDateError.classList.add('hidden');
+//   }
+// });
+
 
 requestTripBtn.addEventListener('click', function() {
   // validate the data
@@ -78,7 +87,10 @@ requestTripBtn.addEventListener('click', function() {
   postData('trips', userInputData)
     .then(responseJSON => {
       displayPOSTSuccess();
-      createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip);
+      // what would be better is an 'add trip' method that sorts it appropriately in the Traveler Class
+      currentTraveler.pendingTrips.push(responseJSON.newTrip);
+      currentTraveler.destinations.push(userDestination);
+      displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
     })
     .catch(error => displayPOSTError(error));
 })
@@ -97,10 +109,17 @@ function attemptLogin() {
       });
   }
   else {
-    // displayLoginError();
+    // create separate function? maybe if it can be dynamic..
     loginErrorDisplay.classList.remove('hidden');
     loginBtn.classList.add('hidden');
   }
+}
+
+function resetLogin() {
+  loginErrorDisplay.classList.add('hidden');
+  loginBtn.classList.remove('hidden');
+  username.value = '';
+  password.value = '';
 }
 
 // ERROR HANDLERS *************************************************
@@ -130,6 +149,7 @@ function setData(datasets) {
   destinationDataset = new Dataset(datasets[2].destinations);
   currentTraveler.setTravelerTrips(tripDataset, 'userID');
   currentTraveler.setTravelerDestinations(destinationDataset);
+  console.log(currentTraveler);
   displayData();
 };
 
@@ -152,20 +172,23 @@ function displayTravelerInfo() {
 }
 
 function displayTravelerTrips() {
-  const today = new Date().toISOString().slice(0, 10).split('-').join('/');
-  currentTraveler.trips.forEach(trip => {
-    const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
-    // manipulate trip date to display a range of days in second <p>
-    if (trip.status === 'pending') {
-      createTripCard(pendingTripsSection, destination, trip);
-    }
-    else if (trip.date < today) {
-      createTripCard(pastTripsSection, destination, trip);
-    }
-    else {
-      createTripCard(upcomingTripsSection, destination, trip);
-    }
-  })
+  displayTripsByStatus('pastTrips', pastTripsSection, 'past');
+  displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
+  displayTripsByStatus('upcomingTrips', upcomingTripsSection, 'upcoming');
+}
+
+function displayTripsByStatus(tripList, section, status) {
+  if (currentTraveler[tripList].length > 0) {
+    currentTraveler[tripList].forEach(trip => {
+      const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
+      createTripCard(section, destination, trip);
+    });
+  }
+  else {
+    section.innerHTML += `
+      <p>You don't have any ${status} trips, yet!</p>
+    `
+  }
 }
 
 function createTripCard(section, destination, trip) {
@@ -222,38 +245,36 @@ function resetTripRequest() {
 }
 
 /// trip request form validation stuff brainstorm ///
-
-function checkDate() {
-  let valid = false;
-  const date = tripDate.value;
-  if (!isRequired(date)) {
-    displayError(tripDate, 'Please select a date.');
-  }
-  else if (!isDateInFuture(date)) {
-    displayError(tripDate, 'Please choose a future date.')
-  }
-  else {
-    displaySuccess(tripDate);
-    valid = true;
-  }
-  return valid;
-}
-
-function checkNumberInput(input) {
-  let valid = false;
-  const value = parseInt(input.value);
-  console.log(value);
-  if (typeof value === 'NaN') {
-    displayError(input, 'Please enter a number.');
-  }
-  else if (!isBetween(value, 0)) {
-    displayError(input, 'Number must be greater than or equal to one.')
-  }
-  else {
-    displaySuccess(input);
-    valid = true;
-  }
-  return valid;
-}
-
-export { displayPOSTError };
+//
+// function checkDate() {
+//   let valid = false;
+//   const date = tripDate.value;
+//   if (!isRequired(date)) {
+//     displayError(tripDate, 'Please select a date.');
+//   }
+//   else if (!isDateInFuture(date)) {
+//     displayError(tripDate, 'Please choose a future date.')
+//   }
+//   else {
+//     displaySuccess(tripDate);
+//     valid = true;
+//   }
+//   return valid;
+// }
+//
+// function checkNumberInput(input) {
+//   let valid = false;
+//   const value = parseInt(input.value);
+//   console.log(value);
+//   if (typeof value === 'NaN') {
+//     displayError(input, 'Please enter a number.');
+//   }
+//   else if (!isBetween(value, 0)) {
+//     displayError(input, 'Number must be greater than or equal to one.')
+//   }
+//   else {
+//     displaySuccess(input);
+//     valid = true;
+//   }
+//   return valid;
+// }

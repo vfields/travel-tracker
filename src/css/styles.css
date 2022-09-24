@@ -53,6 +53,14 @@ main {
 
 /* or */
 
+/* .form-field {
+  display: flex column;
+}
+
+.form-field:span {
+  display: block;
+} */
+
 .error-message {
   display: block;
 }

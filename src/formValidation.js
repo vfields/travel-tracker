@@ -4,9 +4,6 @@ function checkUsername(input) {
   if (input.value.slice(0, 8) === 'traveler' && id > 0 && id < 51) {
     valid = true;
   }
-  // else {
-  //   displayError(input, 'Invalid username, try again!');
-  // }
   return valid;
 }
 
@@ -15,9 +12,6 @@ function checkPassword(input) {
   if (input.value === 'travel') {
     valid = true;
   }
-  // else {
-  //   displayError(input, 'Incorrect password, try again!');
-  // }
   return valid;
 }
 

@@ -3,6 +3,9 @@ class Traveler {
     this.id = travelerData.id;
     this.name = travelerData.name;
     this.travelerType = travelerData.travelerType;
+    this.pastTrips = [];
+    this.pendingTrips = [];
+    this.upcomingTrips = [];
   }
 
   findFirstName() {
@@ -11,6 +14,20 @@ class Traveler {
 
   setTravelerTrips(dataset, property) {
     this.trips = dataset.findTravelerTrips(this.id, property);
+    // refactor:
+    const today = new Date().toISOString().slice(0, 10).split('-').join('/');
+    // const trips = dataset.findTravelerTrips(this.id, property);
+    this.trips.forEach(trip => {
+      if (trip.status === 'pending') {
+        this.pendingTrips.push(trip);
+      }
+      else if (trip.date < today) {
+        this.pastTrips.push(trip);
+      }
+      else {
+        this.upcomingTrips.push(trip);
+      }
+    });
   }
 
   setTravelerDestinations(dataset) {
@@ -27,6 +44,8 @@ class Traveler {
         }
         return acc;
       }, []);
+
+    // can just use the this.pastTrips here now; refactor when you can
 
     const total = this.destinations
       .reduce((acc, destination) => {

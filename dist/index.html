@@ -13,14 +13,16 @@
       <div class="form-field">
         <label for="username">Username:</label>
         <input name="username" id="username" placeholder="Username" type="string" required />
-        <span class="error-message"></span>
       </div>
       <div class="form-field">
         <label for="password">Password:</label>
         <input name="trip-duration" id="password" placeholder="Password" type="string" required />
-        <span class="error-message"></span>
       </div>
     </form>
+    <article class="login-error-display hidden">
+      <p><span class="login-error-message">Invalid username and/or password. Please try again!</span></p>
+      <button type="button" class="login-try-again-btn">Try Again!</button>
+    </article>
     <button type="button" class="login-btn">Log In!</button>
   </section>
   <main class="hidden">
@@ -50,22 +52,22 @@
       <form class="trip-request-form">
         <div class="form-field">
           <label for="tripDate">Date:</label>
-          <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+          <input name="trip-date" class="date-form trip-request-input" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
           <span class="error-message"></span>
         </div>
         <div class="form-field">
           <label for="tripDuration">Trip Duration (days):</label>
-          <input name="trip-duration" id="tripDuration" placeholder="1" type="number" min="1" required />
+          <input name="trip-duration" id="tripDuration" class="trip-request-input" placeholder="1" type="number" min="1" required />
           <span class="error-message"></span>
         </div>
         <div class="form-field">
           <label for="numOfTravelers">Number of Travelers:</label>
-          <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
+          <input name="num-of-travelers" id="numOfTravelers" class="trip-request-input" placeholder="1" type="number" min="1" required />
           <span class="error-message"></span>
         </div>
         <div class="form-field">
           <label for="destinationChoices">Destination:</label>
-          <select name="destination-choice" id="destinationChoices" required>
+          <select name="destination-choice" id="destinationChoices" class="trip-request-input" required>
             <option value="">Select a destination!</option>
           </select>
           <span class="error-message"></span>
@@ -75,7 +77,6 @@
         <p>Trip Estimate: $<span class="trip-estimate">ESTIMATE</span></p>
         <button type="button" class="request-trip-btn">Request Trip!</button>
       </article>
-      <!-- start here! -->
       <article class="post-response-display hidden">
         <p><span class="post-response-message">Trip successfully requested!</span></p>
         <button type="button" class="reset-request-form-btn">Request Another Trip!</button>
