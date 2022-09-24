@@ -22,9 +22,9 @@ const mainSection = document.querySelector('main');
 const travelerFirstName = document.querySelector('.traveler-first-name');
 const todaysDate = document.querySelector('.todays-date');
 const travelerTotalSpent = document.querySelector('.total-spent');
-const pastTripsSection = document.querySelector('.past-trips-section');
-const pendingTripsSection = document.querySelector('.pending-trips-section');
-const upcomingTripsSection = document.querySelector('.upcoming-trips-section');
+const pastTripsSection = document.querySelector('.past-trips-container');
+const pendingTripsSection = document.querySelector('.pending-trips-container');
+const upcomingTripsSection = document.querySelector('.upcoming-trips-container');
 
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
@@ -149,7 +149,7 @@ function setData(datasets) {
   destinationDataset = new Dataset(datasets[2].destinations);
   currentTraveler.setTravelerTrips(tripDataset, 'userID');
   currentTraveler.setTravelerDestinations(destinationDataset);
-  console.log(currentTraveler);
+  // console.log(currentTraveler);
   displayData();
 };
 
@@ -178,6 +178,7 @@ function displayTravelerTrips() {
 }
 
 function displayTripsByStatus(tripList, section, status) {
+  section.innerHTML = '';
   if (currentTraveler[tripList].length > 0) {
     currentTraveler[tripList].forEach(trip => {
       const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
