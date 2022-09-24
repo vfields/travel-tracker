@@ -35,21 +35,11 @@ class Traveler {
   }
 
   calcTotalSpent() {
-    const today = new Date().toISOString().slice(0, 10).split('-').join('/');
-
-    const pastTrips = this.trips
-      .reduce((acc, trip) => {
-        if (trip.date < today) {
-          acc.push(trip.destinationID);
-        }
-        return acc;
-      }, []);
-
-    // can just use the this.pastTrips here now; refactor when you can
+    const pastDestinationIDs = this.pastTrips.map(trip => trip.destinationID);
 
     const total = this.destinations
       .reduce((acc, destination) => {
-        if (pastTrips.includes(destination.id)) {
+        if (pastDestinationIDs.includes(destination.id)) {
           const pastTrip = this.trips.find(trip => trip.destinationID === destination.id);
           const flightCosts = pastTrip.travelers * destination.estimatedFlightCostPerPerson;
           const lodgingCosts = pastTrip.duration * destination.estimatedLodgingCostPerDay;
