@@ -14,11 +14,8 @@ class Traveler {
 
   setTravelerTrips(dataset, property) {
     this.trips = dataset.findTravelerTrips(this.id, property);
-
-    // console.log(this.trips.sort((a, b) => console.log('a: ', a, 'a.date :', a.date, 'typeof a.date', typeof a.date, 'parseInt(a.date.split(/).join())', parseInt(a.date.split('/').join('')))));
-    // console.log('a sort attempt', this.trips.sort((a, b) => parseInt(a.date.split('/').join('')) - parseInt(a.date.split('/').join(''))));
-    // this is definitely the spot to sort the trips...
-    // this.trips.sort however... not sure why I can't sort by date?
+    this.trips.sort((a, b) => b.date.split('/').join('') - a.date.split('/').join(''))
+    // trips are now in order of most recent to most past
 
     const today = new Date().toISOString().slice(0, 10).split('-').join('/');
     this.trips.forEach(trip => {

@@ -149,11 +149,6 @@ function setData(datasets) {
   destinationDataset = new Dataset(datasets[2].destinations);
   currentTraveler.setTravelerTrips(tripDataset, 'userID');
   currentTraveler.setTravelerDestinations(destinationDataset);
-  console.log('pastTrips dates order', currentTraveler.pastTrips.map(trip => trip.date));
-  // this is from oldest to most recent
-  console.log('pastTrips dates .sort', currentTraveler.pastTrips.map(trip => trip.date).sort());
-  // this is from most recent to oldest
-  console.log('pastTrips dates .sort .reverse', currentTraveler.pastTrips.map(trip => trip.date).sort().reverse());
   displayData();
 };
 
