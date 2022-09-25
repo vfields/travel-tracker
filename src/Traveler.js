@@ -15,7 +15,6 @@ class Traveler {
   setTravelerTrips(dataset, property) {
     this.trips = dataset.findTravelerTrips(this.id, property);
     this.trips.sort((a, b) => b.date.split('/').join('') - a.date.split('/').join(''))
-    // trips are now in order of most recent to most past
 
     const today = new Date().toISOString().slice(0, 10).split('-').join('/');
     this.trips.forEach(trip => {
@@ -33,6 +32,11 @@ class Traveler {
 
   setTravelerDestinations(dataset) {
     this.destinations = dataset.findTravelerDestinations(this.trips);
+  }
+
+  addTrip(trip, tripList) {
+    this.trips.unshift(trip);
+    this[tripList].unshift(trip);
   }
 
   calcTotalSpent() {

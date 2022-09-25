@@ -26,6 +26,7 @@ const pastTripsSection = document.querySelector('.past-trips-container');
 const pendingTripsSection = document.querySelector('.pending-trips-container');
 const upcomingTripsSection = document.querySelector('.upcoming-trips-container');
 
+// if I have the form, do I need the list of inputs?
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
 // const tripDateError = document.querySelector('.trip-date-error-message');
@@ -41,6 +42,8 @@ const requestTripBtn = document.querySelector('.request-trip-btn');
 const postResponseDisplay = document.querySelector('.post-response-display');
 const postResponseMessage = document.querySelector('.post-response-message');
 const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
+
+const reloadBtn = document.querySelector('.reload-page');
 
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
@@ -80,22 +83,29 @@ requestTripBtn.addEventListener('click', function() {
     travelers: parseInt(numOfTravelers.value),
     date: tripDate.value.split('-').join('/'),
     duration: parseInt(tripDuration.value),
-    status: 'pending',
+    // status: 'pending',
     suggestedActivities: []
   };
 
   postData('trips', userInputData)
     .then(responseJSON => {
       displayPOSTSuccess();
-      // what would be better is an 'add trip' method that sorts it appropriately in the Traveler Class
-      currentTraveler.pendingTrips.push(responseJSON.newTrip);
+      currentTraveler.addTrip(responseJSON.newTrip, 'pendingTrips');
       currentTraveler.destinations.push(userDestination);
       displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
+      disableForm(allTripRequestInputs);
     })
-    .catch(error => displayPOSTError(error));
+    .catch(error => {
+      displayPOSTError(error)
+      disableForm(allTripRequestInputs);
+    });
 })
 
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
+
+reloadBtn.addEventListener('click', function() {
+  location.reload();
+})
 
 // EVENT HANDLERS *************************************************
 function attemptLogin() {
@@ -140,6 +150,7 @@ function displayPOSTError(error) {
   else {
     postResponseMessage.innerText = `Something isn't right. Please try submitting this form again later!`;
   }
+  reloadBtn.classList.remove('hidden');
 }
 
 // FUNCTIONS ******************************************************
@@ -240,7 +251,14 @@ function displayPOSTSuccess() {
 function resetTripRequest() {
   postResponseDisplay.classList.add('hidden');
   allTripRequestInputs.forEach(input => {
+    input.disabled = false;
     input.value = '';
+  })
+}
+
+function disableForm(formInputs) {
+  formInputs.forEach(input => {
+    input.disabled = true;
   })
 }
 
