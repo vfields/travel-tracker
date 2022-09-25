@@ -3,7 +3,7 @@ import './css/styles.css';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { checkUsername, checkPassword, isRequired, isDateInFuture, isGreaterThanZero, isTripRequestValid } from './formValidation.js';
+import { checkUsername, checkPassword, isRequired, isDateInFuture, isGreaterThanZero } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -201,7 +201,7 @@ function handleNumberErrors() {
 }
 
 function displayEstimate() {
-  if (isDateInFuture(tripDate.value) && isTripRequestValid(numOfTravelers) && isTripRequestValid(tripDuration) && isTripRequestValid(destinationChoices)) {
+  if (isDateInFuture(tripDate.value) && isGreaterThanZero(tripDuration.value) && isGreaterThanZero(numOfTravelers.value) && isRequired(destinationChoices.value)) {
     tripEstimate.innerText = calculateEstimatedTotal();
     tripEstimateDisplay.classList.remove('hidden');
   }
@@ -275,5 +275,3 @@ function resetTripRequest() {
     input.value = '';
   })
 }
-
-export { allTripRequestInputs }
