@@ -3,7 +3,7 @@ import './css/styles.css';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { checkUsername, checkPassword, isRequired, isGreaterThanZero, isTripRequestValid, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
+import { checkUsername, checkPassword, isRequired, isDateInFuture, isGreaterThanZero, isTripRequestValid } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -29,7 +29,6 @@ const upcomingTripsSection = document.querySelector('.upcoming-trips-container')
 
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
-// const tripDateError = document.querySelector('.trip-date-error-message');
 const tripDuration = document.querySelector('#tripDuration');
 const numOfTravelers = document.querySelector('#numOfTravelers');
 const destinationChoices = document.querySelector('#destinationChoices');
@@ -47,92 +46,15 @@ const reloadBtn = document.querySelector('.reload-page');
 // EVENT LISTENERS ************************************************
 loginBtn.addEventListener('click', attemptLogin);
 loginTryAgainBtn.addEventListener('click', resetLogin);
-
 tripDate.addEventListener('input', handleDateErrors);
 tripDuration.addEventListener('input', handleNumberErrors);
 numOfTravelers.addEventListener('input', handleNumberErrors);
-
-// reorganize/put these functions in their rightful place eventually
-
-function handleDateErrors() {
-  if (!isDateInFuture(this.value)) {
-    displayInputError(this, 'Please pick a date in the future!');
-  }
-  else {
-    removeInputError(this);
-  }
-}
-
-function handleNumberErrors() {
-  if (!isGreaterThanZero(this.value)) {
-    displayInputError(this, 'Please pick a number greater than zero.');
-  }
-  else {
-    removeInputError(this);
-  }
-}
-
-function displayInputError(input, message) {
-  const formField = input.parentElement;
-  formField.querySelector('.error-message').textContent = message;
-  const releventInputs = allTripRequestInputs.filter(requestInput => requestInput !== input);
-  disableForm(releventInputs);
-}
-
-function removeInputError(input) {
-  const formField = input.parentElement;
-  formField.querySelector('.error-message').textContent = '';
-  allTripRequestInputs.forEach(input => {
-    input.disabled = false;
-  })
-}
-
-//
-
-tripRequestForm.addEventListener('input', function() {
-  if (isTripRequestValid(tripDate) && isTripRequestValid(numOfTravelers) && isTripRequestValid(tripDuration) && isTripRequestValid(destinationChoices)) {
-    displayEstimate();
-  }
-  else {
-    tripEstimateDisplay.classList.add('hidden');
-  }
-})
-
-requestTripBtn.addEventListener('click', function() {
-  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
-  const userDestination = destinationDataset.findSelectedDestination(userSelection);
-
-  const userInputData = {
-    id: Date.now(),
-    userID: currentTraveler.id,
-    destinationID: userDestination.id,
-    travelers: parseInt(numOfTravelers.value),
-    date: tripDate.value.split('-').join('/'),
-    duration: parseInt(tripDuration.value),
-    status: 'pending',
-    suggestedActivities: []
-  };
-
-  postData('trips', userInputData)
-    .then(responseJSON => {
-      displayPOSTSuccess();
-      currentTraveler.addTrip(responseJSON.newTrip, 'pendingTrips');
-      currentTraveler.destinations.push(userDestination);
-      displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
-      disableForm(allTripRequestInputs);
-    })
-    .catch(error => {
-      displayPOSTError(error)
-      disableForm(allTripRequestInputs);
-    });
-})
-
-// done thinking, this is fine
-
+tripRequestForm.addEventListener('input', displayEstimate);
+requestTripBtn.addEventListener('click', requestTrip);
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
 reloadBtn.addEventListener('click', () => location.reload());
 
-// EVENT HANDLERS *************************************************
+// FUNCTIONS ******************************************************
 function attemptLogin() {
   if (checkUsername(username) && checkPassword(password)) {
     Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
@@ -150,37 +72,6 @@ function attemptLogin() {
   }
 }
 
-function resetLogin() {
-  loginErrorDisplay.classList.add('hidden');
-  loginBtn.classList.remove('hidden');
-  allLoginInputs.forEach(input => {
-    input.disabled = false;
-    input.value = '';
-  })
-}
-
-// ERROR HANDLERS *************************************************
-function displayGETError(error) {
-  loginSection.innerHTML = ``;
-  loginSection.innerHTML += `
-    <h1>Oops! Something went wrong. Please try again later!</h1>
-  `;
-}
-
-function displayPOSTError(error) {
-  postResponseDisplay.classList.remove('hidden');
-  resetRequestFormBtn.classList.add('hidden');
-  tripEstimateDisplay.classList.add('hidden');
-  if (error.message[0] === '5') {
-    postResponseMessage.innerText = 'Oops! Something is wrong with the server. Please try submitting this form again later!';
-  }
-  else {
-    postResponseMessage.innerText = `Something isn't right. Please try submitting this form again later!`;
-  }
-  reloadBtn.classList.remove('hidden');
-}
-
-// FUNCTIONS ******************************************************
 function setData(datasets) {
   currentTraveler = new Traveler(datasets[0]);
   tripDataset = new Dataset(datasets[1].trips);
@@ -254,9 +145,69 @@ function displayDestinationChoices() {
     });
 }
 
+function displayGETError(error) {
+  loginSection.innerHTML = ``;
+  loginSection.innerHTML += `
+    <h1>Oops! Something went wrong. Please try again later!</h1>
+  `;
+}
+
+function disableForm(formInputs) {
+  formInputs.forEach(input => {
+    input.disabled = true;
+  })
+}
+
+function resetLogin() {
+  loginErrorDisplay.classList.add('hidden');
+  loginBtn.classList.remove('hidden');
+  allLoginInputs.forEach(input => {
+    input.disabled = false;
+    input.value = '';
+  })
+}
+
+function handleDateErrors() {
+  if (!isDateInFuture(this.value)) {
+    displayInputError(this, 'Please pick a date in the future!');
+  }
+  else {
+    removeInputError(this);
+  }
+}
+
+function displayInputError(input, message) {
+  const formField = input.parentElement;
+  formField.querySelector('.error-message').textContent = message;
+  const releventInputs = allTripRequestInputs.filter(requestInput => requestInput !== input);
+  disableForm(releventInputs);
+}
+
+function removeInputError(input) {
+  const formField = input.parentElement;
+  formField.querySelector('.error-message').textContent = '';
+  allTripRequestInputs.forEach(input => {
+    input.disabled = false;
+  })
+}
+
+function handleNumberErrors() {
+  if (!isGreaterThanZero(this.value)) {
+    displayInputError(this, 'Please pick a number greater than zero.');
+  }
+  else {
+    removeInputError(this);
+  }
+}
+
 function displayEstimate() {
-  tripEstimate.innerText = calculateEstimatedTotal();
-  tripEstimateDisplay.classList.remove('hidden');
+  if (isDateInFuture(tripDate.value) && isTripRequestValid(numOfTravelers) && isTripRequestValid(tripDuration) && isTripRequestValid(destinationChoices)) {
+    tripEstimate.innerText = calculateEstimatedTotal();
+    tripEstimateDisplay.classList.remove('hidden');
+  }
+  else {
+    tripEstimateDisplay.classList.add('hidden');
+  }
 }
 
 function calculateEstimatedTotal() {
@@ -270,9 +221,51 @@ function calculateEstimatedTotal() {
   return (Math.round(totalWithFee * 100) / 100).toFixed(2);
 }
 
+function requestTrip() {
+  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
+  const userDestination = destinationDataset.findSelectedDestination(userSelection);
+
+  const userInputData = {
+    id: Date.now(),
+    userID: currentTraveler.id,
+    destinationID: userDestination.id,
+    travelers: parseInt(numOfTravelers.value),
+    date: tripDate.value.split('-').join('/'),
+    duration: parseInt(tripDuration.value),
+    status: 'pending',
+    suggestedActivities: []
+  };
+
+  postData('trips', userInputData)
+    .then(responseJSON => {
+      displayPOSTSuccess();
+      currentTraveler.addTrip(responseJSON.newTrip, 'pendingTrips');
+      currentTraveler.destinations.push(userDestination);
+      displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
+      disableForm(allTripRequestInputs);
+    })
+    .catch(error => {
+      displayPOSTError(error)
+      disableForm(allTripRequestInputs);
+    });
+}
+
 function displayPOSTSuccess() {
   postResponseDisplay.classList.remove('hidden');
   tripEstimateDisplay.classList.add('hidden');
+}
+
+function displayPOSTError(error) {
+  postResponseDisplay.classList.remove('hidden');
+  resetRequestFormBtn.classList.add('hidden');
+  tripEstimateDisplay.classList.add('hidden');
+  if (error.message[0] === '5') {
+    postResponseMessage.innerText = 'Oops! Something is wrong with the server. Please try submitting this form again later!';
+  }
+  else {
+    postResponseMessage.innerText = `Something isn't right. Please try submitting this form again later!`;
+  }
+  reloadBtn.classList.remove('hidden');
 }
 
 function resetTripRequest() {
@@ -282,46 +275,5 @@ function resetTripRequest() {
     input.value = '';
   })
 }
-
-function disableForm(formInputs) {
-  formInputs.forEach(input => {
-    input.disabled = true;
-  })
-}
-
-/// trip request form validation stuff brainstorm ///
-//
-// function checkDate() {
-//   let valid = false;
-//   const date = tripDate.value;
-//   if (!isRequired(date)) {
-//     displayError(tripDate, 'Please select a date.');
-//   }
-//   else if (!isDateInFuture(date)) {
-//     displayError(tripDate, 'Please choose a future date.')
-//   }
-//   else {
-//     displaySuccess(tripDate);
-//     valid = true;
-//   }
-//   return valid;
-// }
-//
-// function checkNumberInput(input) {
-//   let valid = false;
-//   const value = parseInt(input.value);
-//   console.log(value);
-//   if (typeof value === 'NaN') {
-//     displayError(input, 'Please enter a number.');
-//   }
-//   else if (!isBetween(value, 0)) {
-//     displayError(input, 'Number must be greater than or equal to one.')
-//   }
-//   else {
-//     displaySuccess(input);
-//     valid = true;
-//   }
-//   return valid;
-// }
 
 export { allTripRequestInputs }
