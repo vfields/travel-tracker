@@ -51,50 +51,40 @@ loginTryAgainBtn.addEventListener('click', resetLogin);
 // thinking thinking thinking:
 
 tripDate.addEventListener('input', function() {
-  const formField = tripDate.parentElement;
   if (!isDateInFuture(tripDate.value)) {
-    // const formField = tripDate.parentElement;
-    // formField.classList.remove('success');
-    // formField.classList.add('error');
-    // formField.querySelector('.error-message').textContent = '';
-    formField.querySelector('.error-message').textContent = `Please pick a date in the future!`;
-    const releventInputs = [allTripRequestInputs[1], allTripRequestInputs[2], allTripRequestInputs[3]]
-    disableForm(releventInputs);
-    console.log('wrong date');
+    displayInputError(tripDate, 'Please pick a date in the future!');
   }
   else {
     removeInputError(tripDate);
-    console.log('right date');
   }
 })
 
 numOfTravelers.addEventListener('input', function() {
-  const formField = numOfTravelers.parentElement;
   if (!isGreaterThanZero(numOfTravelers.value)) {
-    console.log('bad number');
-    formField.querySelector('.error-message').textContent = `Please pick a number greater than zero.`;
-    const releventInputs = [allTripRequestInputs[0], allTripRequestInputs[1], allTripRequestInputs[3]]
-    disableForm(releventInputs);
+    displayInputError(numOfTravelers, 'Please pick a number greater than zero.');
   }
   else {
     removeInputError(numOfTravelers);
-    console.log('good number');
   }
 })
 
 tripDuration.addEventListener('input', function() {
-  const formField = tripDuration.parentElement;
   if (!isGreaterThanZero(tripDuration.value)) {
-    console.log('bad number');
-    formField.querySelector('.error-message').textContent = `Please pick a number greater than zero.`;
-    const releventInputs = [allTripRequestInputs[0], allTripRequestInputs[2], allTripRequestInputs[3]]
-    disableForm(releventInputs);
+    displayInputError(tripDuration, 'Please pick a number greater than zero.');
   }
   else {
     removeInputError(tripDuration)
-    console.log('good number');
   }
 })
+
+// reorganize/put this in its rightful place eventually
+
+function displayInputError(input, message) {
+  const formField = input.parentElement;
+  formField.querySelector('.error-message').textContent = message;
+  const releventInputs = allTripRequestInputs.filter(requestInput => requestInput !== input);
+  disableForm(releventInputs);
+}
 
 function removeInputError(input) {
   const formField = input.parentElement;
@@ -114,7 +104,6 @@ tripRequestForm.addEventListener('input', function() {
 })
 
 requestTripBtn.addEventListener('click', function() {
-  // data is automatically valid with current logic!
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
   const userDestination = destinationDataset.findSelectedDestination(userSelection);
 
