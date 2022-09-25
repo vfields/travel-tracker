@@ -1,14 +1,15 @@
-/* BODY ************************************************* */
-section { /* delete this later */
-  border: 2px solid red;
+* {
+  font-family: open-sans, sans-serif;
 }
 
+/* BODY ************************************************* */
 .login-section {
   border: 2px solid purple; /* refactor/delete later */
   text-align: center;
 }
 
 main {
+  background-color: #e9d8a6;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
@@ -16,9 +17,40 @@ main {
   text-align: center;
 }
 
+main section {
+  background-color: white;
+  border-radius: 10px;
+}
+
+h2 {
+  color: #005f73;
+}
+
 .traveler-info-section {
-  border: 2px solid red; /* delete this later */
+  font-size: 18px;
   grid-column: span 3;
+}
+
+.large {
+  font-size: 30px;
+}
+
+.total-container {
+  margin-bottom: 0px;
+}
+
+.total-explanation {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.astericks {
+  font-size: 25px;
+  color: #9b2226;
+}
+
+.astericks-message {
+  font-size: 14px;
 }
 
 .trips {
@@ -39,6 +71,7 @@ main {
 /* TRIP CARDS ****************************************** */
 
 .trip-card img {
+  border-radius: 10px;
   width: 85%;
   height: 85%;
   object-fit: cover;
@@ -55,32 +88,22 @@ main {
   border: 2px solid green;
 } */
 
-/* or */
-
-/* .form-field {
-  display: flex column;
-}
-
-.form-field:span {
-  display: block;
-} */
-
 .error-message {
   display: block;
 }
 
-.error {
+/* .error {
   border: 2px solid pink;
 }
 
 .success {
   border: 2px solid green;
-}
+} */
 
 /* TEXT ************************************************ */
-span {
+/* span {
   color: blue;
-}
+} */
 
 /* GENERAL ********************************************* */
 .hidden {
