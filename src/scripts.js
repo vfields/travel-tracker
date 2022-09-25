@@ -48,36 +48,29 @@ const reloadBtn = document.querySelector('.reload-page');
 loginBtn.addEventListener('click', attemptLogin);
 loginTryAgainBtn.addEventListener('click', resetLogin);
 
-// thinking thinking thinking:
+tripDate.addEventListener('input', handleDateErrors);
+tripDuration.addEventListener('input', handleNumberErrors);
+numOfTravelers.addEventListener('input', handleNumberErrors);
 
-tripDate.addEventListener('input', function() {
-  if (!isDateInFuture(tripDate.value)) {
-    displayInputError(tripDate, 'Please pick a date in the future!');
+// reorganize/put these functions in their rightful place eventually
+
+function handleDateErrors() {
+  if (!isDateInFuture(this.value)) {
+    displayInputError(this, 'Please pick a date in the future!');
   }
   else {
-    removeInputError(tripDate);
+    removeInputError(this);
   }
-})
+}
 
-numOfTravelers.addEventListener('input', function() {
-  if (!isGreaterThanZero(numOfTravelers.value)) {
-    displayInputError(numOfTravelers, 'Please pick a number greater than zero.');
+function handleNumberErrors() {
+  if (!isGreaterThanZero(this.value)) {
+    displayInputError(this, 'Please pick a number greater than zero.');
   }
   else {
-    removeInputError(numOfTravelers);
+    removeInputError(this);
   }
-})
-
-tripDuration.addEventListener('input', function() {
-  if (!isGreaterThanZero(tripDuration.value)) {
-    displayInputError(tripDuration, 'Please pick a number greater than zero.');
-  }
-  else {
-    removeInputError(tripDuration)
-  }
-})
-
-// reorganize/put this in its rightful place eventually
+}
 
 function displayInputError(input, message) {
   const formField = input.parentElement;
@@ -93,6 +86,8 @@ function removeInputError(input) {
     input.disabled = false;
   })
 }
+
+//
 
 tripRequestForm.addEventListener('input', function() {
   if (isTripRequestValid(tripDate) && isTripRequestValid(numOfTravelers) && isTripRequestValid(tripDuration) && isTripRequestValid(destinationChoices)) {
