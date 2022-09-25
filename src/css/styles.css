@@ -1,5 +1,10 @@
+/* GENERAL ********************************************* */
 * {
   font-family: open-sans, sans-serif;
+}
+
+.hidden {
+  display: none;
 }
 
 /* BODY ************************************************* */
@@ -22,8 +27,26 @@ main section {
   border-radius: 10px;
 }
 
+h1,
 h2 {
   color: #005f73;
+}
+
+button {
+  background-color: #005f73;
+  border: 1px solid #005f73;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  margin: 7.5px;
+  padding: 5px 15px;
+}
+
+button:hover {
+  background-color: #0a9396;
+  border: 1px solid #0a9396;
+  opacity: 0.75;
+  cursor: pointer;
 }
 
 .traveler-info-section {
@@ -33,6 +56,12 @@ h2 {
 
 .large {
   font-size: 30px;
+}
+
+.greeting-container {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .total-container {
@@ -45,7 +74,7 @@ h2 {
 }
 
 .astericks {
-  font-size: 25px;
+  font-size: 20px;
   color: #9b2226;
 }
 
@@ -84,32 +113,18 @@ h2 {
 
 /* FORM ************************************************ */
 
-/* :invalid {
-  border: 2px solid orange;
+.est-total {
+  color: #9b2226;
+  font-weight: bold;
 }
 
-:valid {
-  border: 2px solid green;
-} */
+form {
+  margin: 7.5px;
+}
 
 .error-message {
+  color: #ae2012;
   display: block;
-}
-
-/* .error {
-  border: 2px solid pink;
-}
-
-.success {
-  border: 2px solid green;
-} */
-
-/* TEXT ************************************************ */
-/* span {
-  color: blue;
-} */
-
-/* GENERAL ********************************************* */
-.hidden {
-  display: none;
+  font-size: 14px;
+  margin: 2px;
 }
