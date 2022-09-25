@@ -1,3 +1,5 @@
+import { allTripRequestInputs } from './scripts.js'
+
 function checkUsername(input) {
   let valid = false;
   const id = parseInt(input.value.slice(8));
@@ -24,7 +26,26 @@ function isDateInFuture(date) {
   return date > today ? true : false;
 }
 
-///// playing below here, using above here ///// 
+function isGreaterThanZero(value) {
+  const number = parseInt(value);
+  return number > 0 ? true : false;
+}
+
+function isTripRequestValid(input) {
+  let valid = false;
+  if (input === allTripRequestInputs[0] && isRequired(input.value) && isDateInFuture(input.value)) {
+    valid = true;
+  }
+  else if (input === allTripRequestInputs[3] && isRequired(input.value)) {
+    valid = true;
+  }
+  else if (isRequired(input.value) && isGreaterThanZero(input.value)) {
+    valid = true;
+  }
+  return valid;
+}
+
+///// playing below here, using above here /////
 
 // play with these - something is off with the userinput value!
 
@@ -75,4 +96,4 @@ function displaySuccess(input) {
 }
 
 
-export { checkUsername, checkPassword, isRequired, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess };
+export { checkUsername, checkPassword, isRequired, isGreaterThanZero, isTripRequestValid, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess };

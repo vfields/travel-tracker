@@ -3,7 +3,7 @@ import './css/styles.css';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { checkUsername, checkPassword, isRequired, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
+import { checkUsername, checkPassword, isRequired, isGreaterThanZero, isTripRequestValid, removeError, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -50,17 +50,6 @@ loginTryAgainBtn.addEventListener('click', resetLogin);
 
 // thinking thinking thinking:
 
-tripRequestForm.addEventListener('input', function() {
-  // refactor this? yep, array!
-  // can use probably use allTripRequestInputs here
-  if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isRequired(destinationChoices.value)) {
-    displayEstimate();
-  }
-  else {
-    tripEstimateDisplay.classList.add('hidden');
-  }
-})
-
 tripDate.addEventListener('input', function() {
   const formField = tripDate.parentElement;
   if (!isDateInFuture(tripDate.value)) {
@@ -74,18 +63,58 @@ tripDate.addEventListener('input', function() {
     console.log('wrong date');
   }
   else {
-    formField.querySelector('.error-message').textContent = '';
-    allTripRequestInputs.forEach(input => {
-      input.disabled = false;
-      // input.value = '';
-    })
+    removeInputError(tripDate);
     console.log('right date');
   }
 })
 
+numOfTravelers.addEventListener('input', function() {
+  const formField = numOfTravelers.parentElement;
+  if (!isGreaterThanZero(numOfTravelers.value)) {
+    console.log('bad number');
+    formField.querySelector('.error-message').textContent = `Please pick a number greater than zero.`;
+    const releventInputs = [allTripRequestInputs[0], allTripRequestInputs[1], allTripRequestInputs[3]]
+    disableForm(releventInputs);
+  }
+  else {
+    removeInputError(numOfTravelers);
+    console.log('good number');
+  }
+})
+
+tripDuration.addEventListener('input', function() {
+  const formField = tripDuration.parentElement;
+  if (!isGreaterThanZero(tripDuration.value)) {
+    console.log('bad number');
+    formField.querySelector('.error-message').textContent = `Please pick a number greater than zero.`;
+    const releventInputs = [allTripRequestInputs[0], allTripRequestInputs[2], allTripRequestInputs[3]]
+    disableForm(releventInputs);
+  }
+  else {
+    removeInputError(tripDuration)
+    console.log('good number');
+  }
+})
+
+function removeInputError(input) {
+  const formField = input.parentElement;
+  formField.querySelector('.error-message').textContent = '';
+  allTripRequestInputs.forEach(input => {
+    input.disabled = false;
+  })
+}
+
+tripRequestForm.addEventListener('input', function() {
+  if (isTripRequestValid(tripDate) && isTripRequestValid(numOfTravelers) && isTripRequestValid(tripDuration) && isTripRequestValid(destinationChoices)) {
+    displayEstimate();
+  }
+  else {
+    tripEstimateDisplay.classList.add('hidden');
+  }
+})
 
 requestTripBtn.addEventListener('click', function() {
-  // validate the data
+  // data is automatically valid with current logic!
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
   const userDestination = destinationDataset.findSelectedDestination(userSelection);
 
@@ -310,3 +339,5 @@ function disableForm(formInputs) {
 //   }
 //   return valid;
 // }
+
+export { allTripRequestInputs }
