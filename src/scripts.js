@@ -48,6 +48,8 @@ const reloadBtn = document.querySelector('.reload-page');
 loginBtn.addEventListener('click', attemptLogin);
 loginTryAgainBtn.addEventListener('click', resetLogin);
 
+// thinking thinking thinking:
+
 tripRequestForm.addEventListener('input', function() {
   // refactor this? yep, array!
   // can use probably use allTripRequestInputs here
@@ -59,15 +61,27 @@ tripRequestForm.addEventListener('input', function() {
   }
 })
 
-/* thinking about this... */
-// tripDate.addEventListener('change', function() {
-//   if (!isDateInFuture(tripDate.value)) {
-//     tripDateError.classList.remove('hidden');
-//   }
-//   else {
-//     tripDateError.classList.add('hidden');
-//   }
-// });
+tripDate.addEventListener('input', function() {
+  const formField = tripDate.parentElement;
+  if (!isDateInFuture(tripDate.value)) {
+    // const formField = tripDate.parentElement;
+    // formField.classList.remove('success');
+    // formField.classList.add('error');
+    // formField.querySelector('.error-message').textContent = '';
+    formField.querySelector('.error-message').textContent = `Please pick a date in the future!`;
+    const releventInputs = [allTripRequestInputs[1], allTripRequestInputs[2], allTripRequestInputs[3]]
+    disableForm(releventInputs);
+    console.log('wrong date');
+  }
+  else {
+    formField.querySelector('.error-message').textContent = '';
+    allTripRequestInputs.forEach(input => {
+      input.disabled = false;
+      // input.value = '';
+    })
+    console.log('right date');
+  }
+})
 
 
 requestTripBtn.addEventListener('click', function() {
@@ -99,6 +113,8 @@ requestTripBtn.addEventListener('click', function() {
       disableForm(allTripRequestInputs);
     });
 })
+
+// done thinking, this is fine
 
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
 reloadBtn.addEventListener('click', () => location.reload());
