@@ -24,6 +24,10 @@ main {
 .trips {
   display: flex row;
   max-height: 300px;
+}
+
+.trips div {
+  max-height: 75%;
   overflow: scroll;
 }
 
