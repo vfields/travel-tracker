@@ -12,15 +12,17 @@
     <form class="user-login">
       <div class="form-field">
         <label for="username">Username:</label>
-        <input name="username" id="username" placeholder="Username" type="string" required />
-        <span class="error-message"></span>
+        <input name="username" id="username" class="login" placeholder="Username" type="string" required />
       </div>
       <div class="form-field">
         <label for="password">Password:</label>
-        <input name="trip-duration" id="password" placeholder="Password" type="string" required />
-        <span class="error-message"></span>
+        <input name="trip-duration" id="password" class="login" placeholder="Password" type="string" required />
       </div>
     </form>
+    <article class="login-error-display hidden">
+      <p><span class="login-error-message">Invalid username and/or password. Please try again!</span></p>
+      <button type="button" class="login-try-again-btn">Try Again!</button>
+    </article>
     <button type="button" class="login-btn">Log In!</button>
   </section>
   <main class="hidden">
@@ -32,6 +34,8 @@
     </section>
     <section class="trips past-trips-section">
       <h2>Past Trips:</h2>
+      <div class="past-trips-container">
+      </div>
       <!-- <article class="trip-card" tabindex="0">
         <p>Destination: <span>DESTINATION NAME</span></p>
         <p>Travel Date: <span>TRAVEL DATE</span></p>
@@ -40,9 +44,13 @@
     </section>
     <section class="trips pending-trips-section">
       <h2>Pending Trips:</h2>
+      <div class="pending-trips-container">
+      </div>
     </section>
     <section class="trips upcoming-trips-section">
       <h2>Upcoming Trips:</h2>
+      <div class="upcoming-trips-container">
+      </div>
     </section>
     <section class="trip-request-section">
       <h2>Make A Trip Request</h2>
@@ -50,22 +58,22 @@
       <form class="trip-request-form">
         <div class="form-field">
           <label for="tripDate">Date:</label>
-          <input name="trip-date" class="date-form" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+          <input name="trip-date" class="date-form trip-request-input" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
           <span class="error-message"></span>
         </div>
         <div class="form-field">
           <label for="tripDuration">Trip Duration (days):</label>
-          <input name="trip-duration" id="tripDuration" placeholder="1" type="number" min="1" required />
+          <input name="trip-duration" id="tripDuration" class="trip-request-input" placeholder="1" type="number" min="1" required />
           <span class="error-message"></span>
         </div>
         <div class="form-field">
           <label for="numOfTravelers">Number of Travelers:</label>
-          <input name="num-of-travelers" id="numOfTravelers" placeholder="1" type="number" min="1" required />
+          <input name="num-of-travelers" id="numOfTravelers" class="trip-request-input" placeholder="1" type="number" min="1" required />
           <span class="error-message"></span>
         </div>
         <div class="form-field">
           <label for="destinationChoices">Destination:</label>
-          <select name="destination-choice" id="destinationChoices" required>
+          <select name="destination-choice" id="destinationChoices" class="trip-request-input" required>
             <option value="">Select a destination!</option>
           </select>
           <span class="error-message"></span>
@@ -74,6 +82,11 @@
       <article class="trip-estimate-display hidden">
         <p>Trip Estimate: $<span class="trip-estimate">ESTIMATE</span></p>
         <button type="button" class="request-trip-btn">Request Trip!</button>
+      </article>
+      <article class="post-response-display hidden">
+        <p><span class="post-response-message">Trip successfully requested!</span></p>
+        <button type="button" class="reset-request-form-btn">Request Another Trip!</button>
+        <button type="button" class="reload-page hidden">Refresh Application</button>
       </article>
     </section>
   </main>

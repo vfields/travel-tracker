@@ -18,6 +18,11 @@ class Dataset {
       return acc;
     }, []);
   }
+
+  findSelectedDestination(selection) {
+    return this.data
+      .find(destination => destination.destination === selection);
+  }
 }
 
 export default Dataset;

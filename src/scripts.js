@@ -3,7 +3,7 @@ import './css/styles.css';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { isRequired, isDateInFuture, isBetween, isSelected, displayError, displaySuccess } from './formValidation.js';
+import { checkUsername, checkPassword, isRequired, isDateInFuture, isGreaterThanZero } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -13,107 +13,65 @@ let currentTraveler;
 // DOM ELEMENTS ***************************************************
 const username = document.querySelector('#username');
 const password = document.querySelector('#password');
-const loginBtn = document.querySelector('.login-btn');
+const allLoginInputs = Array.from(document.querySelectorAll('.login'));
 const loginSection = document.querySelector('.login-section');
+const loginBtn = document.querySelector('.login-btn');
+const loginErrorDisplay = document.querySelector('.login-error-display');
+const loginTryAgainBtn = document.querySelector('.login-try-again-btn');
 const mainSection = document.querySelector('main');
 
 const travelerFirstName = document.querySelector('.traveler-first-name');
 const todaysDate = document.querySelector('.todays-date');
 const travelerTotalSpent = document.querySelector('.total-spent');
-const pastTripsSection = document.querySelector('.past-trips-section');
-const pendingTripsSection = document.querySelector('.pending-trips-section');
-const upcomingTripsSection = document.querySelector('.upcoming-trips-section');
+const pastTripsSection = document.querySelector('.past-trips-container');
+const pendingTripsSection = document.querySelector('.pending-trips-container');
+const upcomingTripsSection = document.querySelector('.upcoming-trips-container');
 
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
 const tripDuration = document.querySelector('#tripDuration');
 const numOfTravelers = document.querySelector('#numOfTravelers');
 const destinationChoices = document.querySelector('#destinationChoices');
+const allTripRequestInputs = Array.from(document.querySelectorAll('.trip-request-input'));
 
 const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
 const tripEstimate = document.querySelector('.trip-estimate');
 const requestTripBtn = document.querySelector('.request-trip-btn');
 
+const postResponseDisplay = document.querySelector('.post-response-display');
+const postResponseMessage = document.querySelector('.post-response-message');
+const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
+const reloadBtn = document.querySelector('.reload-page');
+
 // EVENT LISTENERS ************************************************
-loginBtn.addEventListener('click', function() {
+loginBtn.addEventListener('click', attemptLogin);
+loginTryAgainBtn.addEventListener('click', resetLogin);
+tripDate.addEventListener('input', handleDateErrors);
+tripDuration.addEventListener('input', handleNumberErrors);
+numOfTravelers.addEventListener('input', handleNumberErrors);
+tripRequestForm.addEventListener('input', displayEstimate);
+requestTripBtn.addEventListener('click', requestTrip);
+resetRequestFormBtn.addEventListener('click', resetTripRequest);
+reloadBtn.addEventListener('click', () => location.reload());
+
+// FUNCTIONS ******************************************************
+function attemptLogin() {
   if (checkUsername(username) && checkPassword(password)) {
     Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
       .then(datasets => {
         setData(datasets);
+      })
+      .catch(error => {
+        displayGETError(error);
       });
-    loginSection.classList.add('hidden');
-    mainSection.classList.remove('hidden');
-    console.log('this is the right combo!');
   }
   else {
-    console.log('this is the wrong combo!');
+    disableForm(allLoginInputs);
+    loginErrorDisplay.classList.remove('hidden');
+    loginBtn.classList.add('hidden');
   }
-});
-
-function checkUsername(input) {
-  let valid = false;
-  const id = parseInt(input.value.slice(8));
-  if (input.value.slice(0, 8) === 'traveler' && id > 0 && id < 51) {
-    valid = true;
-  }
-  // else {
-  //   displayError(input, 'Incorrect username, try again!');
-  // }
-  return valid;
 }
 
-function checkPassword(input) {
-  let valid = false;
-  if (input.value === 'travel') {
-    valid = true;
-  }
-  // else {
-  //   displayError(input, 'Incorrect password, try again!');
-  // }
-  return valid;
-}
-
-
-// might be something to consider later:
-// const allRequiredInputs = Array.from(document.querySelectorAll('[required]'));
-// allRequiredInputs.forEach(input => {
-//   console.log(input);
-// })
-
-
-// refactor this!
-tripRequestForm.addEventListener('input', function() {
-  if (isRequired(tripDate.value) && isRequired(tripDuration.value) && isRequired(numOfTravelers.value) && isSelected(destinationChoices)) {
-    displayEstimate();
-  }
-})
-
-requestTripBtn.addEventListener('click', function() {
-  // validate the data
-  // consider a trip class or some sort of function here,
-  // where you could pass the destination
-  // maybe not a trip class, maybe just a function or method
-
-  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
-  const userDestination = destinationDataset.data
-    .find(destination => destination.destination === userSelection);
-
-  const userInputData = {
-    id: Date.now(),
-    userID: currentTraveler.id,
-    destinationID: userDestination.id,
-    travelers: parseInt(numOfTravelers.value),
-    date: tripDate.value.split('-').join('/'),
-    duration: parseInt(tripDuration.value),
-    status: 'pending',
-    suggestedActivities: []
-  };
-
-  postData('trips', userInputData)
-    .then(responseJSON => createTripCard(pendingTripsSection, userDestination, responseJSON.newTrip));
-})
-
-// FUNCTIONS ******************************************************
 function setData(datasets) {
   currentTraveler = new Traveler(datasets[0]);
   tripDataset = new Dataset(datasets[1].trips);
@@ -124,9 +82,15 @@ function setData(datasets) {
 };
 
 function displayData() {
+  displayMain();
   displayTravelerInfo();
   displayTravelerTrips();
   displayDestinationChoices();
+}
+
+function displayMain() {
+  loginSection.classList.add('hidden');
+  mainSection.classList.remove('hidden');
 }
 
 function displayTravelerInfo() {
@@ -136,23 +100,24 @@ function displayTravelerInfo() {
 }
 
 function displayTravelerTrips() {
-  const today = new Date().toISOString().slice(0, 10).split('-').join('/');
-  currentTraveler.trips.forEach(trip => {
-    const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
-    // manipulate trip date to display a range of days in second <p>
-    if (trip.status === 'pending') {
-      // pending trips
-      createTripCard(pendingTripsSection, destination, trip);
-    }
-    else if (trip.date < today) {
-      // past trips
-      createTripCard(pastTripsSection, destination, trip);
-    }
-    else {
-      // upcoming trips
-      createTripCard(upcomingTripsSection, destination, trip);
-    }
-  })
+  displayTripsByStatus('pastTrips', pastTripsSection, 'past');
+  displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
+  displayTripsByStatus('upcomingTrips', upcomingTripsSection, 'upcoming');
+}
+
+function displayTripsByStatus(tripList, section, status) {
+  section.innerHTML = '';
+  if (currentTraveler[tripList].length > 0) {
+    currentTraveler[tripList].forEach(trip => {
+      const destination = currentTraveler.destinations.find(destination => trip.destinationID === destination.id);
+      createTripCard(section, destination, trip);
+    });
+  }
+  else {
+    section.innerHTML += `
+      <p>You don't have any ${status} trips, yet!</p>
+    `
+  }
 }
 
 function createTripCard(section, destination, trip) {
@@ -180,54 +145,133 @@ function displayDestinationChoices() {
     });
 }
 
+function displayGETError(error) {
+  loginSection.innerHTML = ``;
+  loginSection.innerHTML += `
+    <h1>Oops! Something went wrong. Please try again later!</h1>
+  `;
+}
+
+function disableForm(formInputs) {
+  formInputs.forEach(input => {
+    input.disabled = true;
+  })
+}
+
+function resetLogin() {
+  loginErrorDisplay.classList.add('hidden');
+  loginBtn.classList.remove('hidden');
+  allLoginInputs.forEach(input => {
+    input.disabled = false;
+    input.value = '';
+  })
+}
+
+function handleDateErrors() {
+  if (!isDateInFuture(this.value)) {
+    displayInputError(this, 'Please pick a date in the future!');
+  }
+  else {
+    removeInputError(this);
+  }
+}
+
+function displayInputError(input, message) {
+  const formField = input.parentElement;
+  formField.querySelector('.error-message').textContent = message;
+  const releventInputs = allTripRequestInputs.filter(requestInput => requestInput !== input);
+  disableForm(releventInputs);
+}
+
+function removeInputError(input) {
+  const formField = input.parentElement;
+  formField.querySelector('.error-message').textContent = '';
+  allTripRequestInputs.forEach(input => {
+    input.disabled = false;
+  })
+}
+
+function handleNumberErrors() {
+  if (!isGreaterThanZero(this.value)) {
+    displayInputError(this, 'Please pick a number greater than zero.');
+  }
+  else {
+    removeInputError(this);
+  }
+}
+
 function displayEstimate() {
-  tripEstimate.innerText = calculateEstimatedTotal();
-  tripEstimateDisplay.classList.remove('hidden');
+  if (isDateInFuture(tripDate.value) && isGreaterThanZero(tripDuration.value) && isGreaterThanZero(numOfTravelers.value) && isRequired(destinationChoices.value)) {
+    tripEstimate.innerText = calculateEstimatedTotal();
+    tripEstimateDisplay.classList.remove('hidden');
+  }
+  else {
+    tripEstimateDisplay.classList.add('hidden');
+  }
 }
 
 function calculateEstimatedTotal() {
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
-  const userDestination = destinationDataset.data
-    .find(destination => destination.destination === userSelection);
+  // this is repetitive... must be a way to make dynamic with Traveler class... not sure how yet!
+  const userDestination = destinationDataset.findSelectedDestination(userSelection);
   const flightCosts = numOfTravelers.value * userDestination.estimatedFlightCostPerPerson;
   const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
   const total = flightCosts + lodgingCosts;
   const totalWithFee = total * 1.10;
-  return (Math.round(totalWithFee * 100) / 100).toFixed(2)
-  // console.log('heres the estimate', totalWithFee, 'trip', userDestination);
+  return (Math.round(totalWithFee * 100) / 100).toFixed(2);
 }
 
-/// trip request form stuff brainstorm ///
+function requestTrip() {
+  const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
+  const userDestination = destinationDataset.findSelectedDestination(userSelection);
 
-function checkDate() {
-  let valid = false;
-  const date = tripDate.value;
-  if (!isRequired(date)) {
-    displayError(tripDate, 'Please select a date.');
-  }
-  else if (!isDateInFuture(date)) {
-    displayError(tripDate, 'Please choose a future date.')
-  }
-  else {
-    displaySuccess(tripDate);
-    valid = true;
-  }
-  return valid;
+  const userInputData = {
+    id: Date.now(),
+    userID: currentTraveler.id,
+    destinationID: userDestination.id,
+    travelers: parseInt(numOfTravelers.value),
+    date: tripDate.value.split('-').join('/'),
+    duration: parseInt(tripDuration.value),
+    status: 'pending',
+    suggestedActivities: []
+  };
+
+  postData('trips', userInputData)
+    .then(responseJSON => {
+      displayPOSTSuccess();
+      currentTraveler.addTrip(responseJSON.newTrip, 'pendingTrips');
+      currentTraveler.destinations.push(userDestination);
+      displayTripsByStatus('pendingTrips', pendingTripsSection, 'pending');
+      disableForm(allTripRequestInputs);
+    })
+    .catch(error => {
+      displayPOSTError(error)
+      disableForm(allTripRequestInputs);
+    });
 }
 
-function checkNumberInput(input) {
-  let valid = false;
-  const value = parseInt(input.value);
-  console.log(value);
-  if (typeof value === 'NaN') {
-    displayError(input, 'Please enter a number.');
-  }
-  else if (!isBetween(value, 0)) {
-    displayError(input, 'Number must be greater than or equal to one.')
+function displayPOSTSuccess() {
+  postResponseDisplay.classList.remove('hidden');
+  tripEstimateDisplay.classList.add('hidden');
+}
+
+function displayPOSTError(error) {
+  postResponseDisplay.classList.remove('hidden');
+  resetRequestFormBtn.classList.add('hidden');
+  tripEstimateDisplay.classList.add('hidden');
+  if (error.message[0] === '5') {
+    postResponseMessage.innerText = 'Oops! Something is wrong with the server. Please try submitting this form again later!';
   }
   else {
-    displaySuccess(input);
-    valid = true;
+    postResponseMessage.innerText = `Something isn't right. Please try submitting this form again later!`;
   }
-  return valid;
+  reloadBtn.classList.remove('hidden');
+}
+
+function resetTripRequest() {
+  postResponseDisplay.classList.add('hidden');
+  allTripRequestInputs.forEach(input => {
+    input.disabled = false;
+    input.value = '';
+  })
 }
