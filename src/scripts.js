@@ -13,6 +13,7 @@ let currentTraveler;
 // DOM ELEMENTS ***************************************************
 const username = document.querySelector('#username');
 const password = document.querySelector('#password');
+const allLoginInputs = Array.from(document.querySelectorAll('.login'));
 const loginSection = document.querySelector('.login-section');
 const loginBtn = document.querySelector('.login-btn');
 const loginErrorDisplay = document.querySelector('.login-error-display');
@@ -26,7 +27,6 @@ const pastTripsSection = document.querySelector('.past-trips-container');
 const pendingTripsSection = document.querySelector('.pending-trips-container');
 const upcomingTripsSection = document.querySelector('.upcoming-trips-container');
 
-// if I have the form, do I need the list of inputs?
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
 // const tripDateError = document.querySelector('.trip-date-error-message');
@@ -42,7 +42,6 @@ const requestTripBtn = document.querySelector('.request-trip-btn');
 const postResponseDisplay = document.querySelector('.post-response-display');
 const postResponseMessage = document.querySelector('.post-response-message');
 const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
-
 const reloadBtn = document.querySelector('.reload-page');
 
 // EVENT LISTENERS ************************************************
@@ -83,7 +82,7 @@ requestTripBtn.addEventListener('click', function() {
     travelers: parseInt(numOfTravelers.value),
     date: tripDate.value.split('-').join('/'),
     duration: parseInt(tripDuration.value),
-    // status: 'pending',
+    status: 'pending',
     suggestedActivities: []
   };
 
@@ -102,10 +101,7 @@ requestTripBtn.addEventListener('click', function() {
 })
 
 resetRequestFormBtn.addEventListener('click', resetTripRequest);
-
-reloadBtn.addEventListener('click', function() {
-  location.reload();
-})
+reloadBtn.addEventListener('click', () => location.reload());
 
 // EVENT HANDLERS *************************************************
 function attemptLogin() {
@@ -119,7 +115,7 @@ function attemptLogin() {
       });
   }
   else {
-    // create separate function? maybe if it can be dynamic..
+    disableForm(allLoginInputs);
     loginErrorDisplay.classList.remove('hidden');
     loginBtn.classList.add('hidden');
   }
@@ -128,8 +124,10 @@ function attemptLogin() {
 function resetLogin() {
   loginErrorDisplay.classList.add('hidden');
   loginBtn.classList.remove('hidden');
-  username.value = '';
-  password.value = '';
+  allLoginInputs.forEach(input => {
+    input.disabled = false;
+    input.value = '';
+  })
 }
 
 // ERROR HANDLERS *************************************************
