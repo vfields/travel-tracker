@@ -40,8 +40,8 @@ const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
 const reloadBtn = document.querySelector('.reload-page');
 
 // EVENT LISTENERS ************************************************
-loginBtn.addEventListener('click', attemptLogin);
-loginTryAgainBtn.addEventListener('click', resetLogin);
+// loginBtn.addEventListener('click', attemptLogin);
+// loginTryAgainBtn.addEventListener('click', resetLogin);
 tripDate.addEventListener('input', handleDateErrors);
 tripDuration.addEventListener('input', handleNumberErrors);
 numOfTravelers.addEventListener('input', handleNumberErrors);
@@ -51,25 +51,33 @@ resetRequestFormBtn.addEventListener('click', resetTripRequest);
 reloadBtn.addEventListener('click', () => location.reload());
 
 // FUNCTIONS ******************************************************
-function attemptLogin() {
-  if (checkUsername(username) && checkPassword(password)) {
-    Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
-      .then(datasets => {
-        setData(datasets);
-      })
-      .catch(error => {
-        displayGETError(error);
-      });
-  }
-  else {
-    disableForm(allLoginInputs);
-    loginErrorDisplay.classList.remove('hidden');
-    loginBtn.classList.add('hidden');
-  }
-}
+// function attemptLogin() {
+//   if (checkUsername(username) && checkPassword(password)) {
+//     Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
+//       .then(datasets => {
+//         setData(datasets);
+//       })
+//       .catch(error => {
+//         displayGETError(error);
+//       });
+//   }
+//   else {
+//     disableForm(allLoginInputs);
+//     loginErrorDisplay.classList.remove('hidden');
+//     loginBtn.classList.add('hidden');
+//   }
+// }
+
+Promise.all([fetchData(`travelers`), fetchData('trips'), fetchData('destinations')])
+  .then(datasets => {
+    setData(datasets);
+  });
+  // .catch(error => {
+  //   displayGETError(error);
+  // });
 
 function setData(datasets) {
-  currentTraveler = new Traveler(datasets[0]);
+  currentTraveler = new Traveler(datasets[0].travelers[6]);
   tripDataset = new Dataset(datasets[1].trips);
   destinationDataset = new Dataset(datasets[2].destinations);
   currentTraveler.setTravelerTrips(tripDataset, 'userID');
@@ -78,16 +86,16 @@ function setData(datasets) {
 };
 
 function displayData() {
-  displayMain();
+  // displayMain();
   displayTravelerInfo();
   displayTravelerTrips();
   displayDestinationChoices();
 }
 
-function displayMain() {
-  loginSection.classList.add('hidden');
-  mainSection.classList.remove('hidden');
-}
+// function displayMain() {
+//   loginSection.classList.add('hidden');
+//   mainSection.classList.remove('hidden');
+// }
 
 function displayTravelerInfo() {
   travelerFirstName.innerText = currentTraveler.findFirstName();
@@ -145,12 +153,12 @@ function displayDestinationChoices() {
     });
 }
 
-function displayGETError(error) {
-  loginSection.innerHTML = ``;
-  loginSection.innerHTML += `
-    <h1>Oops! Something went wrong. Please try again later!</h1>
-  `;
-}
+// function displayGETError(error) {
+//   loginSection.innerHTML = ``;
+//   loginSection.innerHTML += `
+//     <h1>Oops! Something went wrong. Please try again later!</h1>
+//   `;
+// }
 
 function disableForm(formInputs) {
   formInputs.forEach(input => {
