@@ -121,10 +121,10 @@ function displayTripsByStatus(tripList, section, status) {
 }
 
 function createTripCard(section, destination, trip) {
+  const date = [trip.date.split('/')[1], trip.date.split('/')[2], trip.date.split('/')[0]].join('/');
   section.innerHTML += `
   <article class="trip-card" tabindex="0">
-    <p>${destination.destination}</p>
-    <p>${trip.date}</p>
+    <p>${date}: ${trip.duration} days in ${destination.destination}</p>
     <img src="${destination.image}" alt="${destination.alt}">
   </article>
   `
