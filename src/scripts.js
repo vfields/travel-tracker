@@ -1,9 +1,9 @@
 // DEPENDENCIES **************************************************
 import './css/styles.css';
+import { checkUsername, checkPassword, isRequired, isDateInFuture, isGreaterThanZero } from './formValidation.js';
 import { fetchData, postData } from './apiCalls';
 import Traveler from './Traveler.js';
 import Dataset from './Dataset.js';
-import { checkUsername, checkPassword, isRequired, isDateInFuture, isGreaterThanZero } from './formValidation.js';
 
 // GLOBAL DATA ****************************************************
 let tripDataset;
@@ -19,25 +19,21 @@ const loginBtn = document.querySelector('.login-btn');
 const loginErrorDisplay = document.querySelector('.login-error-display');
 const loginTryAgainBtn = document.querySelector('.login-try-again-btn');
 const mainSection = document.querySelector('main');
-
 const travelerFirstName = document.querySelector('.traveler-first-name');
 const todaysDate = document.querySelector('.todays-date');
 const travelerTotalSpent = document.querySelector('.total-spent');
 const pastTripsSection = document.querySelector('.past-trips-container');
 const pendingTripsSection = document.querySelector('.pending-trips-container');
 const upcomingTripsSection = document.querySelector('.upcoming-trips-container');
-
 const tripRequestForm = document.querySelector('.trip-request-form');
 const tripDate = document.querySelector('#tripDate');
 const tripDuration = document.querySelector('#tripDuration');
 const numOfTravelers = document.querySelector('#numOfTravelers');
 const destinationChoices = document.querySelector('#destinationChoices');
 const allTripRequestInputs = Array.from(document.querySelectorAll('.trip-request-input'));
-
 const tripEstimateDisplay = document.querySelector('.trip-estimate-display');
 const tripEstimate = document.querySelector('.trip-estimate');
 const requestTripBtn = document.querySelector('.request-trip-btn');
-
 const postResponseDisplay = document.querySelector('.post-response-display');
 const postResponseMessage = document.querySelector('.post-response-message');
 const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
@@ -96,7 +92,7 @@ function displayMain() {
 function displayTravelerInfo() {
   travelerFirstName.innerText = currentTraveler.findFirstName();
   todaysDate.innerText = new Date().toLocaleDateString();
-  travelerTotalSpent.innerText = currentTraveler.calcTotalSpent().toFixed(2);
+  travelerTotalSpent.innerText = currentTraveler.calcTotalSpent();
 }
 
 function displayTravelerTrips() {
@@ -122,9 +118,13 @@ function displayTripsByStatus(tripList, section, status) {
 
 function createTripCard(section, destination, trip) {
   const date = [trip.date.split('/')[1], trip.date.split('/')[2], trip.date.split('/')[0]].join('/');
+  let amount = 'days';
+  if (trip.duration === 1) {
+    amount = 'day';
+  }
   section.innerHTML += `
   <article class="trip-card" tabindex="0">
-    <p>${date}: ${trip.duration} days in ${destination.destination}</p>
+    <p><span class="trip-card-date">${date}</span>: ${trip.duration} ${amount} in ${destination.destination}</p>
     <img src="${destination.image}" alt="${destination.alt}">
   </article>
   `

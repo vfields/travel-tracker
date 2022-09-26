@@ -7,6 +7,15 @@
   text-align: center;
 }
 
+h1,
+h2 {
+  color: #005f73;
+}
+
+.large {
+  font-size: 35px;
+}
+
 form {
   margin: 7.5px;
 }
@@ -15,23 +24,11 @@ form {
   display: none;
 }
 
-main {
-  background-color: #e9d8a6;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-  padding: 10px;
-  text-align: center;
-}
-
-main section {
-  background-color: white;
-  border-radius: 10px;
-}
-
-h1,
-h2 {
-  color: #005f73;
+.error-message {
+  color: #ae2012;
+  display: block;
+  font-size: 14px;
+  margin: 2px;
 }
 
 button {
@@ -51,18 +48,29 @@ button:hover {
   cursor: pointer;
 }
 
+main {
+  background-color: #e9d8a6;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+main section {
+  background-color: white;
+  border-radius: 10px;
+}
+
 .traveler-info-section {
   font-size: 18px;
   grid-column: span 3;
 }
 
-.large {
-  font-size: 35px;
-}
-
-.greeting-container {
+.greeting-container,
+.post-response-message {
   color: #9b2226;
-  font-size: 25px;
+  font-size: 27px;
   font-weight: 300;
   margin-bottom: 0px;
 }
@@ -99,6 +107,11 @@ button:hover {
   padding: 5px;
 }
 
+.trip-card-date {
+  color: #001219;
+  font-weight: bold;
+}
+
 .trip-card img {
   border-radius: 10px;
   width: 85%;
@@ -112,19 +125,7 @@ button:hover {
   grid-column: span 3;
 }
 
-.est-total,
-.post-response-message {
+.est-total {
   color: #9b2226;
   font-weight: bold;
-}
-
-.post-response-message {
-  font-size: 20px;
-}
-
-.error-message {
-  color: #ae2012;
-  display: block;
-  font-size: 14px;
-  margin: 2px;
 }
