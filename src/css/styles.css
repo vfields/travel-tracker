@@ -7,6 +7,15 @@
   text-align: center;
 }
 
+h1,
+h2 {
+  color: #005f73;
+}
+
+.large {
+  font-size: 35px;
+}
+
 form {
   margin: 7.5px;
 }
@@ -15,23 +24,11 @@ form {
   display: none;
 }
 
-main {
-  background-color: #e9d8a6;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-  padding: 10px;
-  text-align: center;
-}
-
-main section {
-  background-color: white;
-  border-radius: 10px;
-}
-
-h1,
-h2 {
-  color: #005f73;
+.error-message {
+  color: #ae2012;
+  display: block;
+  font-size: 14px;
+  margin: 2px;
 }
 
 button {
@@ -51,13 +48,23 @@ button:hover {
   cursor: pointer;
 }
 
+main {
+  background-color: #e9d8a6;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+main section {
+  background-color: white;
+  border-radius: 10px;
+}
+
 .traveler-info-section {
   font-size: 18px;
   grid-column: span 3;
-}
-
-.large {
-  font-size: 35px;
 }
 
 .greeting-container,
@@ -121,11 +128,4 @@ button:hover {
 .est-total {
   color: #9b2226;
   font-weight: bold;
-}
-
-.error-message {
-  color: #ae2012;
-  display: block;
-  font-size: 14px;
-  margin: 2px;
 }
