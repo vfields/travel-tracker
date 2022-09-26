@@ -56,7 +56,7 @@ class Traveler {
 
     const totalWithFee = total * 1.10;
 
-    return Math.round(totalWithFee * 100) / 100;
+    return (Math.round(totalWithFee * 100) / 100).toFixed(2);
   }
 }
 

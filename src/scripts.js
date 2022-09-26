@@ -92,7 +92,7 @@ function displayMain() {
 function displayTravelerInfo() {
   travelerFirstName.innerText = currentTraveler.findFirstName();
   todaysDate.innerText = new Date().toLocaleDateString();
-  travelerTotalSpent.innerText = currentTraveler.calcTotalSpent().toFixed(2);
+  travelerTotalSpent.innerText = currentTraveler.calcTotalSpent();
 }
 
 function displayTravelerTrips() {
