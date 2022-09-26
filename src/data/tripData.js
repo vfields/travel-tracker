@@ -1,8 +1,8 @@
-const trips = [
+const tripData = [
   {
     id: 1,
-    userID: 44,
-    destinationID: 49,
+    userID: 1,
+    destinationID: 10,
     travelers: 1,
     date: "2022/09/16",
     duration: 8,
@@ -11,8 +11,8 @@ const trips = [
   },
   {
     id: 2,
-    userID: 35,
-    destinationID: 25,
+    userID: 1,
+    destinationID: 11,
     travelers: 5,
     date: "2022/10/04",
     duration: 18,
@@ -21,8 +21,8 @@ const trips = [
   },
   {
     id: 3,
-    userID: 3,
-    destinationID: 22,
+    userID: 1,
+    destinationID: 12,
     travelers: 4,
     date: "2022/05/22",
     duration: 17,
@@ -31,8 +31,8 @@ const trips = [
   },
   {
     id: 4,
-    userID: 43,
-    destinationID: 14,
+    userID: 2,
+    destinationID: 13,
     travelers: 2,
     date: "2022/02/25",
     duration: 10,
@@ -41,8 +41,8 @@ const trips = [
   },
   {
     id: 5,
-    userID: 42,
-    destinationID: 29,
+    userID: 2,
+    destinationID: 14,
     travelers: 3,
     date: "2022/04/30",
     duration: 18,

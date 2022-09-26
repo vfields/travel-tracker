@@ -1,6 +1,6 @@
-const destinations = [
+const destinationData = [
   {
-    id: 1,
+    id: 10,
     destination: "Lima, Peru",
     estimatedLodgingCostPerDay: 70,
     estimatedFlightCostPerPerson: 400,
@@ -8,7 +8,7 @@ const destinations = [
     alt: "overview of city buildings with a clear sky"
   },
   {
-    id: 2,
+    id: 11,
     destination: "Stockholm, Sweden",
     estimatedLodgingCostPerDay: 100,
     estimatedFlightCostPerPerson: 780,
@@ -16,7 +16,7 @@ const destinations = [
     alt: "city with boats on the water during the day time"
   },
   {
-    id: 3,
+    id: 12,
     destination: "Sydney, Austrailia",
     estimatedLodgingCostPerDay: 130,
     estimatedFlightCostPerPerson: 950,
@@ -24,7 +24,7 @@ const destinations = [
     alt: "opera house and city buildings on the water with boats"
   },
   {
-    id: 4,
+    id: 13,
     destination: "Cartagena, Colombia",
     estimatedLodgingCostPerDay: 65,
     estimatedFlightCostPerPerson: 350,
@@ -32,7 +32,7 @@ const destinations = [
     alt: "boats at a dock during the day time"
   },
   {
-    id: 5,
+    id: 14,
     destination: "Madrid, Spain",
     estimatedLodgingCostPerDay: 150,
     estimatedFlightCostPerPerson: 650,
@@ -40,7 +40,7 @@ const destinations = [
     alt: "city with clear skys and a road in the day time"
   },
   {
-    id: 6,
+    id: 15,
     destination: "Jakarta, Indonesia",
     estimatedLodgingCostPerDay: 70,
     estimatedFlightCostPerPerson: 890,
@@ -48,7 +48,7 @@ const destinations = [
     alt: "lit up city at night"
   },
   {
-    id: 7,
+    id: 16,
     destination: "Paris, France",
     estimatedLodgingCostPerDay: 100,
     estimatedFlightCostPerPerson: 395,
@@ -56,7 +56,7 @@ const destinations = [
     alt: "city during the day time with eiffel tower"
   },
   {
-    id: 8,
+    id: 17,
     destination: "Tokyo, Japan",
     estimatedLodgingCostPerDay: 125,
     estimatedFlightCostPerPerson: 1000,
@@ -64,7 +64,7 @@ const destinations = [
     alt: "city with people walking in crosswalk and brightly lit shops at night"
   },
   {
-    id: 9,
+    id: 18,
     destination: "Amsterdam, Netherlands",
     estimatedLodgingCostPerDay: 100,
     estimatedFlightCostPerPerson: 950,
@@ -72,7 +72,7 @@ const destinations = [
     alt: "canal with boats and trees and buildings along the side"
   },
   {
-    id: 10,
+    id: 19,
     destination: "Toronto, Canada",
     estimatedLodgingCostPerDay: 90,
     estimatedFlightCostPerPerson: 450,
