@@ -1,16 +1,18 @@
-/* GENERAL ********************************************* */
 * {
   font-family: open-sans, sans-serif;
 }
 
-.hidden {
-  display: none;
-}
-
-/* BODY ************************************************* */
 .login-section {
   margin-top: 100px;
   text-align: center;
+}
+
+form {
+  margin: 7.5px;
+}
+
+.hidden {
+  display: none;
 }
 
 main {
@@ -93,13 +95,6 @@ button:hover {
   overflow: scroll;
 }
 
-.trip-request-section {
-  display: flex row;
-  grid-column: span 3;
-}
-
-/* TRIP CARDS ****************************************** */
-
 .trip-card {
   padding: 5px;
 }
@@ -112,7 +107,10 @@ button:hover {
   overflow: hidden;
 }
 
-/* FORM ************************************************ */
+.trip-request-section {
+  display: flex row;
+  grid-column: span 3;
+}
 
 .est-total,
 .post-response-message {
@@ -122,10 +120,6 @@ button:hover {
 
 .post-response-message {
   font-size: 20px;
-}
-
-form {
-  margin: 7.5px;
 }
 
 .error-message {
