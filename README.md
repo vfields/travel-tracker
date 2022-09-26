@@ -72,22 +72,22 @@ This solo project was assigned at the end of the second module of Turing's Front
 
 ## Features
 
-- Implements both GET and POST network requests via fetch API to retrieve, display, and add new user data
 - Utilizes class-to-class interaction and a robust Mocha and Chai testing suite
-- Emphasizes accessbility with a completely tabbable display and 100% Lighthouse accessibility audit 
+- Implements both GET and POST network requests via fetch API to retrieve, display, and add new user data
+- Handles both network request and user errors
 
 ### Reflections
 * Wins:<br>
-WHAT ARE YOUR WINS
+Although I worked with asynchronous JavaScript during this module's group project, I feel this solo project solidified my understanding of it. This project also allowed me time to dedicate to better understanding error handling, and I feel I've a firmer grasp on handling both network request and user generated errors.
 
 * Challenges:<br>
-WHAT ARE YOUR CHALLENGES
+While I can see significant improvement in my ability to connect data and write dynamic code, I still feel there is some unnecessary repetition in my script and, therefore, I know that there is a cleaner/more dynamic solution to connect these data.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contact
 
-Tori Fields - [LinkedIn](https://www.linkedin.com/in/victoria-ashley-fields/) - [GitHub](https://github.com/vfields)<br>
+Tori Fields | [LinkedIn](https://www.linkedin.com/in/victoria-ashley-fields/) | [GitHub](https://github.com/vfields)<br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
