@@ -77,10 +77,10 @@ This solo project was assigned at the end of the second module of Turing's Front
 - Handles both network request and user errors
 
 ### Reflections
-* Wins:<br>
+<b>Wins:</b><br>
 Although I worked with asynchronous JavaScript during this module's group project, I feel this solo project solidified my understanding of it. This project also allowed me time to dedicate to better understanding error handling, and I feel I've a firmer grasp on handling both network request and user generated errors.
-
-* Challenges:<br>
+<p>
+<b>Challenges:</b><br>
 While I can see significant improvement in my ability to connect data and write dynamic code, I still feel there is some unnecessary repetition in my script and, therefore, I know that there is a cleaner/more dynamic solution to connect these data.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
