@@ -60,6 +60,13 @@ button:hover {
   width: 35px;
 }
 
+.toggle-password-btn:disabled {
+  background-color: #0a9396;
+  border: 1px solid #0a9396;
+  opacity: 0.75;
+  cursor: default;
+}
+
 main {
   background-color: #e9d8a6;
   display: grid;

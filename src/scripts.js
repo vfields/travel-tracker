@@ -76,6 +76,7 @@ function attemptLogin() {
   }
   else {
     disableForm(allLoginInputs);
+    togglePasswordBtn.disabled = true;
     loginErrorDisplay.classList.remove('hidden');
     loginBtn.classList.add('hidden');
   }
@@ -178,6 +179,9 @@ function resetLogin() {
     input.disabled = false;
     input.value = '';
   })
+  togglePasswordBtn.disabled = false;
+  togglePasswordBtn.innerText = 'Show';
+  password.setAttribute('type', 'password');
 }
 
 function handleDateErrors() {
