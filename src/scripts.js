@@ -13,6 +13,7 @@ let currentTraveler;
 // DOM ELEMENTS ***************************************************
 const username = document.querySelector('#username');
 const password = document.querySelector('#password');
+const togglePasswordBtn = document.querySelector('.toggle-password-btn');
 const allLoginInputs = Array.from(document.querySelectorAll('.login'));
 const loginSection = document.querySelector('.login-section');
 const loginBtn = document.querySelector('.login-btn');
@@ -40,6 +41,7 @@ const resetRequestFormBtn = document.querySelector('.reset-request-form-btn');
 const reloadBtn = document.querySelector('.reload-page');
 
 // EVENT LISTENERS ************************************************
+togglePasswordBtn.addEventListener('click', togglePassword);
 loginBtn.addEventListener('click', attemptLogin);
 loginTryAgainBtn.addEventListener('click', resetLogin);
 tripDate.addEventListener('input', handleDateErrors);
@@ -51,6 +53,17 @@ resetRequestFormBtn.addEventListener('click', resetTripRequest);
 reloadBtn.addEventListener('click', () => location.reload());
 
 // FUNCTIONS ******************************************************
+function togglePassword() {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    if (this.innerText === 'Show') {
+      this.innerText = 'Hide';
+    }
+    else {
+      this.innerText = 'Show';
+    }
+}
+
 function attemptLogin() {
   if (checkUsername(username) && checkPassword(password)) {
     Promise.all([fetchData(`travelers/${username.value.slice(8)}`), fetchData('trips'), fetchData('destinations')])
@@ -212,7 +225,6 @@ function displayEstimate() {
 
 function calculateEstimatedTotal() {
   const userSelection = destinationChoices.options[destinationChoices.selectedIndex].value;
-  // this is repetitive... must be a way to make dynamic with Traveler class... not sure how yet!
   const userDestination = destinationDataset.findSelectedDestination(userSelection);
   const flightCosts = numOfTravelers.value * userDestination.estimatedFlightCostPerPerson;
   const lodgingCosts = tripDuration.value * userDestination.estimatedLodgingCostPerDay;
