@@ -1,13 +1,15 @@
 <a name="readme-top"></a>
 
 <!-- HEADER -->
-<h1 align="center">Travel Tracker</h3>
-  <p align="center">
-    A Travel Booking Site
-    </br>
-    <a href="https://github.com/vfields/travel-tracker"><strong>Explore the docs »</strong></a>
-  </p>
-</div>
+<h1 align="center">Travel Tracker</h1>
+
+<h3 align="center">A Travel Booking Site</h3>
+
+<h4 align="center"><a href="https://vfields.github.io/travel-tracker/"><strong>Deploy Link</strong></a> | <a href="https://github.com/vfields/travel-tracker"><strong>Explore The Docs »</strong></a></h4>
+
+<h5 align="center">(PS. Your username is <code>traveler</code> plus any number between <code>1-50</code>, i.e. <code>traveler40</code>, and your password is <code>travel</code>!)</h5>
+
+<p></p>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -42,11 +44,11 @@ This solo project was assigned at the end of the second module of Turing's Front
 
 ### Built With
 
-* [![JavaScript][JavaScript.com]][JavaScript-url]
-* [![CSS][w3.org/Style/CSS/Overview.en.html]][CSS-url]
-* [![HTML5][w3.org]][HTML-url]
-* [![Mocha][https://mochajs.org/]][Mocha-url]
-* [![Chai][https://www.chaijs.com/]][Chai-url]
+![JavaScript][JavaScript-shield]
+![CSS][CSS-shield]
+![HTML5][HTML-shield]
+![Mocha][Mocha-shield]
+![Chai][Chai-shield]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -59,6 +61,7 @@ This solo project was assigned at the end of the second module of Turing's Front
 - Run `npm install` to install project dependencies
 - Run `npm start` to launch the live server
 - Copy and paste the provided localhost URL into your browser
+- Remember, your username is <code>traveler</code> plus any number between <code>1-50</code>, i.e. <code>traveler40</code>, and your password is <code>travel</code>!
 - Explore and enjoy!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -74,11 +77,11 @@ This solo project was assigned at the end of the second module of Turing's Front
 
 - Utilizes class-to-class interaction and a robust Mocha and Chai testing suite
 - Implements both GET and POST network requests via fetch API to retrieve, display, and add new user data
-- Handles both network request and user errors
+- Handles both network request- and user-errors
 
 ### Reflections
 <b>Wins:</b><br>
-Although I worked with asynchronous JavaScript during this module's group project, I feel this solo project solidified my understanding of it. This project also allowed me time to dedicate to better understanding error handling, and I feel I've a firmer grasp on handling both network request and user generated errors.
+Although I worked with asynchronous JavaScript during this module's group project, I feel this solo project solidified my understanding of it. This project also allowed me time to dedicate to better understanding error-handling, and I feel I've a firmer grasp on handling both network request and user generated errors for it!
 <p>
 <b>Challenges:</b><br>
 While I can see significant improvement in my ability to connect data and write dynamic code, I still feel there is some unnecessary repetition in my script and, therefore, I know that there is a cleaner/more dynamic solution to connect these data.
@@ -92,17 +95,8 @@ Tori Fields | [LinkedIn](https://www.linkedin.com/in/victoria-ashley-fields/) | 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/matthew-press-813961246/
-[product-demo]: images/demo.gif
-[JavaScript.com]: https://img.shields.io/badge/-JavaScript-yellow
-[JavaScript-url]: https://www.javascript.com/
-[w3.org/Style/CSS/Overview.en.html]: https://img.shields.io/badge/-CSS-blue
-[CSS-url]: https://www.w3.org/Style/CSS/Overview.en.html
-[w3.org]: https://img.shields.io/badge/-HTML5-red
-[HTML-url]: https://www.w3.org/
-[Mocha-url]: https://mochajs.org/
-[https://mochajs.org/]: https://img.shields.io/badge/Mocha-8D6748?style=for-the-badge&logo=Mocha&logoColor=white
-[Chai-url]: https://www.chaijs.com/
-[https://www.chaijs.com/]: https://img.shields.io/badge/Chai-A30701?style=for-the-badge&logo=chai&logoColor=white
-
+[JavaScript-shield]: https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[CSS-shield]: https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
+[HTML-shield]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
+[Mocha-shield]: https://img.shields.io/badge/Mocha-8D6748?style=for-the-badge&logo=Mocha&logoColor=white
+[Chai-shield]: https://img.shields.io/badge/Chai-A30701?style=for-the-badge&logo=chai&logoColor=white
