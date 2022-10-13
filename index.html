@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Tracker</title>
+</head>
+<body>
+  <section class="login-section">
+    <h1 class="large">Welcome, Traveler!</h1>
+    <form class="user-login">
+      <div class="form-field">
+        <label for="username">Username:</label>
+        <input name="username" id="username" class="login" placeholder="Username" type="string" required />
+      </div>
+      <div class="form-field">
+        <label for="password">Password:</label>
+        <input name="trip-duration" id="password" class="login" placeholder="Password" type="password" required />
+        <button type="button" class="toggle-password-btn">Show</button>
+      </div>
+    </form>
+    <article class="login-error-display hidden">
+      <span class="login-error-message error-message">Invalid username and/or password. Please try again!</span>
+      <button type="button" class="login-try-again-btn">Try Again!</button>
+    </article>
+    <button type="button" class="login-btn">Log In!</button>
+  </section>
+  <main class="hidden">
+    <section class="traveler-info-section">
+      <h1 class="large">Travel Tracker</h1>
+      <h2 class="greeting-container">Hello, <span class="traveler-first-name">TRAVELER</span>!</h2>
+      <p class="total-container">As of <span class="todays-date">TODAY</span>, you've spent $<span class="total-spent">TOTAL</span> on trips this year.<span class="astericks">*</span></p>
+      <p class="total-explanation"><span class="astericks">*</span><span class="astericks-message">This total includes the 10% travel agent's fee as well as the total flight and lodging costs of each trip!</span></p>
+    </section>
+    <section class="trips past-trips-section">
+      <h2>Past Trips:</h2>
+      <div class="past-trips-container">
+      </div>
+    </section>
+    <section class="trips pending-trips-section">
+      <h2>Pending Trips:</h2>
+      <div class="pending-trips-container">
+      </div>
+    </section>
+    <section class="trips upcoming-trips-section">
+      <h2>Upcoming Trips:</h2>
+      <div class="upcoming-trips-container">
+      </div>
+    </section>
+    <section class="trip-request-section">
+      <h2>Make A Trip Request</h2>
+      <p>Fill out the form below to make a trip request. You will be shown an <span class="est-total">estimated total</span> before you can submit your request!</p>
+      <form class="trip-request-form">
+        <div class="form-field">
+          <label for="tripDate">Date:</label>
+          <input name="trip-date" class="date-form trip-request-input" type="date" id="tripDate" placeholder="YYYY/MM/DD" required />
+          <span class="error-message"></span>
+        </div>
+        <div class="form-field">
+          <label for="tripDuration">Trip Duration (days):</label>
+          <input name="trip-duration" id="tripDuration" class="trip-request-input" placeholder="1" type="number" min="1" required />
+          <span class="error-message"></span>
+        </div>
+        <div class="form-field">
+          <label for="numOfTravelers">Number of Travelers:</label>
+          <input name="num-of-travelers" id="numOfTravelers" class="trip-request-input" placeholder="1" type="number" min="1" required />
+          <span class="error-message"></span>
+        </div>
+        <div class="form-field">
+          <label for="destinationChoices">Destination:</label>
+          <select name="destination-choice" id="destinationChoices" class="trip-request-input" required>
+            <option value="">Select a destination!</option>
+          </select>
+          <span class="error-message"></span>
+        </div>
+      </form>
+      <article class="trip-estimate-display hidden">
+        <p class="est-total">Trip Estimate: $<span class="trip-estimate">ESTIMATE</span></p>
+        <button type="button" class="request-trip-btn">Request Trip!</button>
+      </article>
+      <article class="post-response-display hidden">
+        <p><span class="post-response-message">Trip successfully requested!</span></p>
+        <button type="button" class="reset-request-form-btn">Request Another Trip!</button>
+        <button type="button" class="reload-page hidden">Refresh Application</button>
+      </article>
+    </section>
+  </main>
+  <script src="bundle.js"></script>
+</body>
+</html>
